@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GPUCompare from '../components/GPUCompare';
+import { getAllGPUs } from '../lib/supabase';
+
+const gpuData = await getAllGPUs();
+---
+
+<BaseLayout
+  title="Compare GPUs"
+  description="Compare GPU specs, AI benchmarks, and prices side-by-side. Find the best graphics card for Stable Diffusion, LLMs, and other AI workloads."
+  currentPath="/compare"
+>
+  <section class="compare-page">
+    <div class="container">
+      <header class="compare-header">
+        <h1 class="compare-header__title">Compare GPUs</h1>
+        <p class="compare-header__subtitle">
+          Select up to 4 GPUs to compare specs, AI performance, and prices side-by-side.
+          Best values are highlighted in green.
+        </p>
+      </header>
+
+      <div id="compare-container">
+        <GPUCompare client:only="react" allGPUs={gpuData} />
+      </div>
+      <noscript>
+        <p style="text-align: center; padding: 2rem; color: var(--text-muted);">
+          JavaScript is required to use the GPU comparison tool.
+        </p>
+      </noscript>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .compare-page {
+    padding: var(--spacing-8) 0 var(--spacing-12);
+  }
+
+  .compare-header {
+    text-align: center;
+    margin-bottom: var(--spacing-8);
+  }
+
+  .compare-header__title {
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-weight: 700;
+    margin: 0 0 var(--spacing-2);
+    color: var(--text-primary);
+  }
+
+  .compare-header__subtitle {
+    color: var(--text-secondary);
+    margin: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>

@@ -1,0 +1,433 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides', ({ data }) => !data.draft);
+  return guides.map((guide) => ({
+    params: { slug: guide.slug },
+    props: { guide },
+  }));
+}
+
+const { guide } = Astro.props;
+const { Content, headings } = await render(guide);
+
+const categories = {
+  'buying-guides': 'Buying Guides',
+  'tutorials': 'Tutorials',
+  'comparisons': 'Comparisons',
+  'news': 'News',
+};
+
+// JSON-LD for article
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: guide.data.title,
+  description: guide.data.description,
+  datePublished: guide.data.publishDate.toISOString(),
+  dateModified: (guide.data.updatedDate || guide.data.publishDate).toISOString(),
+  author: {
+    '@type': 'Organization',
+    name: guide.data.author,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'AIGPUValue',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://aigpuvalue.com/favicon.svg',
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': `https://aigpuvalue.com/guides/${guide.slug}`,
+  },
+};
+---
+
+<BaseLayout
+  title={guide.data.title}
+  description={guide.data.description}
+  currentPath="/guides"
+  jsonLd={jsonLd}
+>
+
+  <article class="guide-article">
+    <div class="container container--narrow">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/guides">Guides</a></li>
+          <li aria-current="page">{guide.data.title}</li>
+        </ol>
+      </nav>
+
+      <!-- Header -->
+      <header class="guide-header">
+        <span class="guide-header__category">
+          {categories[guide.data.category as keyof typeof categories]}
+        </span>
+        <h1 class="guide-header__title">{guide.data.title}</h1>
+        <p class="guide-header__description">{guide.data.description}</p>
+        <div class="guide-header__meta">
+          <span class="guide-header__author">By {guide.data.author}</span>
+          <span class="guide-header__separator">|</span>
+          <time datetime={guide.data.publishDate.toISOString()}>
+            {guide.data.publishDate.toLocaleDateString('en-US', {
+              month: 'long',
+              day: 'numeric',
+              year: 'numeric',
+            })}
+          </time>
+          {guide.data.updatedDate && (
+            <>
+              <span class="guide-header__separator">|</span>
+              <span>Updated: {guide.data.updatedDate.toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric',
+              })}</span>
+            </>
+          )}
+        </div>
+      </header>
+
+      <!-- Table of Contents -->
+      {headings.length > 2 && (
+        <nav class="toc" aria-label="Table of contents">
+          <h2 class="toc__title">Contents</h2>
+          <ol class="toc__list">
+            {headings.filter(h => h.depth <= 3).map((heading) => (
+              <li class={`toc__item toc__item--${heading.depth}`}>
+                <a href={`#${heading.slug}`}>{heading.text}</a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )}
+
+      <!-- Content -->
+      <div class="guide-content prose">
+        <Content />
+      </div>
+
+      <!-- Tags -->
+      {guide.data.tags.length > 0 && (
+        <footer class="guide-footer">
+          <div class="guide-tags">
+            <span class="guide-tags__label">Tags:</span>
+            {guide.data.tags.map((tag: string) => (
+              <span class="guide-tags__tag">{tag}</span>
+            ))}
+          </div>
+        </footer>
+      )}
+
+      <!-- Related GPUs CTA -->
+      <div class="guide-cta">
+        <h3>Ready to find your perfect GPU?</h3>
+        <p>Compare prices and benchmarks across 30+ graphics cards</p>
+        <a href="/" class="btn btn--primary">Browse GPUs</a>
+        <a href="/compare" class="btn btn--secondary">Compare Side-by-Side</a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .guide-article {
+    padding: var(--spacing-8) 0 var(--spacing-16);
+  }
+
+  .container--narrow {
+    max-width: 768px;
+  }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    margin-bottom: var(--spacing-6);
+  }
+
+  .breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .breadcrumb li:not(:last-child)::after {
+    content: '/';
+    margin-left: var(--spacing-2);
+    color: var(--text-muted);
+  }
+
+  .breadcrumb a {
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--brand-primary);
+  }
+
+  .breadcrumb [aria-current="page"] {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  /* Header */
+  .guide-header {
+    margin-bottom: var(--spacing-8);
+  }
+
+  .guide-header__category {
+    display: inline-block;
+    padding: var(--spacing-1) var(--spacing-3);
+    background-color: color-mix(in srgb, var(--brand-primary) 10%, transparent);
+    color: var(--brand-primary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--spacing-3);
+  }
+
+  .guide-header__title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    margin: 0 0 var(--spacing-3);
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+
+  .guide-header__description {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin: 0 0 var(--spacing-4);
+    line-height: 1.6;
+  }
+
+  .guide-header__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .guide-header__separator {
+    color: var(--border-default);
+  }
+
+  /* Table of Contents */
+  .toc {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-4);
+    margin-bottom: var(--spacing-8);
+  }
+
+  .toc__title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin: 0 0 var(--spacing-3);
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .toc__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .toc__item {
+    margin-bottom: var(--spacing-1);
+  }
+
+  .toc__item--2 {
+    padding-left: 0;
+  }
+
+  .toc__item--3 {
+    padding-left: var(--spacing-4);
+  }
+
+  .toc__item a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .toc__item a:hover {
+    color: var(--brand-primary);
+  }
+
+  /* Prose Content */
+  .prose {
+    color: var(--text-primary);
+    line-height: 1.75;
+  }
+
+  .prose :global(h2) {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: var(--spacing-8) 0 var(--spacing-4);
+    color: var(--text-primary);
+  }
+
+  .prose :global(h3) {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: var(--spacing-6) 0 var(--spacing-3);
+    color: var(--text-primary);
+  }
+
+  .prose :global(p) {
+    margin: 0 0 var(--spacing-4);
+    color: var(--text-secondary);
+  }
+
+  .prose :global(a) {
+    color: var(--brand-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .prose :global(a:hover) {
+    text-decoration: none;
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 0 0 var(--spacing-4);
+    padding-left: var(--spacing-6);
+    color: var(--text-secondary);
+  }
+
+  .prose :global(li) {
+    margin-bottom: var(--spacing-2);
+  }
+
+  .prose :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--spacing-6) 0;
+    font-size: 0.875rem;
+  }
+
+  .prose :global(th),
+  .prose :global(td) {
+    padding: var(--spacing-2) var(--spacing-3);
+    border: 1px solid var(--border-default);
+    text-align: left;
+  }
+
+  .prose :global(th) {
+    background-color: var(--bg-tertiary);
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .prose :global(td) {
+    color: var(--text-secondary);
+  }
+
+  .prose :global(strong) {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .prose :global(code) {
+    background-color: var(--bg-tertiary);
+    padding: 0.125rem 0.375rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.875em;
+    color: var(--brand-primary);
+  }
+
+  .prose :global(blockquote) {
+    border-left: 4px solid var(--brand-primary);
+    padding-left: var(--spacing-4);
+    margin: var(--spacing-6) 0;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .prose :global(hr) {
+    border: none;
+    border-top: 1px solid var(--border-default);
+    margin: var(--spacing-8) 0;
+  }
+
+  /* Footer & Tags */
+  .guide-footer {
+    margin-top: var(--spacing-8);
+    padding-top: var(--spacing-6);
+    border-top: 1px solid var(--border-default);
+  }
+
+  .guide-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+    align-items: center;
+  }
+
+  .guide-tags__label {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+  }
+
+  .guide-tags__tag {
+    padding: var(--spacing-1) var(--spacing-2);
+    background-color: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  /* CTA */
+  .guide-cta {
+    margin-top: var(--spacing-8);
+    padding: var(--spacing-6);
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    text-align: center;
+  }
+
+  .guide-cta h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 var(--spacing-2);
+    color: var(--text-primary);
+  }
+
+  .guide-cta p {
+    color: var(--text-secondary);
+    margin: 0 0 var(--spacing-4);
+  }
+
+  .guide-cta .btn {
+    margin: 0 var(--spacing-2);
+  }
+
+  @media (max-width: 640px) {
+    .guide-cta .btn {
+      display: block;
+      margin: var(--spacing-2) 0;
+    }
+  }
+</style>

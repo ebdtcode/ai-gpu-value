@@ -1,0 +1,251 @@
+---
+import type { GPUWithData } from '../types';
+import { getValueRating, formatPrice } from '../types';
+
+interface Props {
+  gpus: GPUWithData[];
+}
+
+const { gpus } = Astro.props;
+---
+
+<div class="gpu-table-wrapper">
+  <table class="gpu-table" role="table">
+    <thead>
+      <tr>
+        <th scope="col" class="gpu-table__th gpu-table__th--sticky">GPU</th>
+        <th scope="col" class="gpu-table__th gpu-table__th--center">Value</th>
+        <th scope="col" class="gpu-table__th gpu-table__th--right">VRAM</th>
+        <th scope="col" class="gpu-table__th gpu-table__th--right">SDXL</th>
+        <th scope="col" class="gpu-table__th gpu-table__th--right">LLM 7B</th>
+        <th scope="col" class="gpu-table__th gpu-table__th--right">TDP</th>
+        <th scope="col" class="gpu-table__th gpu-table__th--right">Used</th>
+        <th scope="col" class="gpu-table__th gpu-table__th--right">New</th>
+        <th scope="col" class="gpu-table__th gpu-table__th--center">Buy</th>
+      </tr>
+    </thead>
+    <tbody>
+      {gpus.map((gpu) => {
+        const valueRating = getValueRating(gpu.valueScore);
+        const brandClass = gpu.brand.toLowerCase();
+        return (
+          <tr class="gpu-table__row">
+            <td class="gpu-table__td gpu-table__td--sticky">
+              <div class="gpu-table__gpu-info">
+                <span class={`gpu-brand gpu-brand--${brandClass}`}>
+                  {gpu.brand}
+                </span>
+                <a href={`/gpus/${gpu.slug}`} class="gpu-table__gpu-name">
+                  {gpu.name}
+                </a>
+              </div>
+            </td>
+            <td class="gpu-table__td gpu-table__td--center">
+              <span class={`value-badge value-badge--${valueRating}`}>
+                {gpu.valueScore}
+              </span>
+            </td>
+            <td class="gpu-table__td gpu-table__td--right">
+              <span class="spec-value">{gpu.vramGb}GB</span>
+            </td>
+            <td class="gpu-table__td gpu-table__td--right">
+              <span class="spec-value">
+                {gpu.benchmarks?.sdxlImgsPerMin ? `${gpu.benchmarks.sdxlImgsPerMin} img/m` : '—'}
+              </span>
+            </td>
+            <td class="gpu-table__td gpu-table__td--right">
+              <span class="spec-value">
+                {gpu.benchmarks?.llm7bTokensPerSec ? `${gpu.benchmarks.llm7bTokensPerSec} t/s` : '—'}
+              </span>
+            </td>
+            <td class="gpu-table__td gpu-table__td--right">
+              <span class="spec-value">{gpu.tdpWatts}W</span>
+            </td>
+            <td class="gpu-table__td gpu-table__td--right">
+              <span class="price">
+                {gpu.lowestUsedPrice ? formatPrice(gpu.lowestUsedPrice) : '—'}
+              </span>
+            </td>
+            <td class="gpu-table__td gpu-table__td--right">
+              <span class="price">
+                {gpu.lowestNewPrice ? formatPrice(gpu.lowestNewPrice) : '—'}
+              </span>
+            </td>
+            <td class="gpu-table__td gpu-table__td--center">
+              <a
+                href={gpu.prices[0]?.affiliateUrl || `/gpus/${gpu.slug}`}
+                class="gpu-table__buy-link"
+                target={gpu.prices[0]?.affiliateUrl ? '_blank' : undefined}
+                rel={gpu.prices[0]?.affiliateUrl ? 'noopener sponsored' : undefined}
+                aria-label={`Check price for ${gpu.name}`}
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+              </a>
+            </td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .gpu-table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    background-color: var(--bg-secondary);
+  }
+
+  .gpu-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
+  .gpu-table__th {
+    padding: var(--spacing-3) var(--spacing-4);
+    background-color: var(--bg-tertiary);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: left;
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .gpu-table__th--center {
+    text-align: center;
+  }
+
+  .gpu-table__th--right {
+    text-align: right;
+  }
+
+  .gpu-table__th--sticky {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background-color: var(--bg-tertiary);
+  }
+
+  .gpu-table__row {
+    transition: background-color 0.15s ease;
+  }
+
+  .gpu-table__row:hover {
+    background-color: var(--bg-tertiary);
+  }
+
+  .gpu-table__row:not(:last-child) {
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .gpu-table__td {
+    padding: var(--spacing-3) var(--spacing-4);
+    color: var(--text-secondary);
+  }
+
+  .gpu-table__td--center {
+    text-align: center;
+  }
+
+  .gpu-table__td--right {
+    text-align: right;
+  }
+
+  .gpu-table__td--sticky {
+    position: sticky;
+    left: 0;
+    background-color: var(--bg-secondary);
+    z-index: 1;
+  }
+
+  .gpu-table__row:hover .gpu-table__td--sticky {
+    background-color: var(--bg-tertiary);
+  }
+
+  .gpu-table__gpu-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+  }
+
+  .gpu-table__gpu-name {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.15s ease;
+  }
+
+  .gpu-table__gpu-name:hover {
+    color: var(--brand-primary);
+  }
+
+  .gpu-table__buy-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: var(--brand-primary);
+    color: white;
+    border-radius: var(--radius-md);
+    transition: all 0.15s ease;
+  }
+
+  .gpu-table__buy-link:hover {
+    background-color: var(--brand-hover);
+    transform: scale(1.05);
+  }
+
+  /* Responsive: show scroll indicator */
+  @media (max-width: 1024px) {
+    .gpu-table-wrapper {
+      position: relative;
+    }
+
+    .gpu-table-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 40px;
+      background: linear-gradient(to right, transparent, var(--bg-secondary));
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.2s ease;
+    }
+
+    .gpu-table-wrapper::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .gpu-table-wrapper::-webkit-scrollbar-track {
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-full);
+    }
+
+    .gpu-table-wrapper::-webkit-scrollbar-thumb {
+      background: var(--border-strong);
+      border-radius: var(--radius-full);
+    }
+  }
+</style>

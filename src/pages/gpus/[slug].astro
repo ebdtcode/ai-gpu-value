@@ -1,0 +1,588 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAllGPUs, getGPUBySlug, getAllGPUSlugs } from '../../lib/supabase';
+import { getValueRating, formatPrice, formatNumber } from '../../types';
+import type { GPUWithData } from '../../types';
+
+export async function getStaticPaths() {
+  const gpus = await getAllGPUs();
+  return gpus.map((gpu) => ({
+    params: { slug: gpu.slug },
+    props: { gpu },
+  }));
+}
+
+interface Props {
+  gpu: GPUWithData;
+}
+
+const { gpu } = Astro.props;
+const valueRating = getValueRating(gpu.valueScore);
+const brandClass = gpu.brand.toLowerCase();
+
+// Find similar GPUs (same VRAM tier)
+const allGPUs = await getAllGPUs();
+const similarGPUs = allGPUs
+  .filter((g) => g.id !== gpu.id && Math.abs(g.vramGb - gpu.vramGb) <= 4)
+  .slice(0, 3);
+
+// Structured data for SEO
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: gpu.name,
+  description: `${gpu.name} - ${gpu.vramGb}GB ${gpu.vramType} graphics card for AI workloads. SDXL: ${gpu.benchmarks?.sdxlImgsPerMin || 'N/A'} img/min, LLM 7B: ${gpu.benchmarks?.llm7bTokensPerSec || 'N/A'} tok/s.`,
+  brand: {
+    '@type': 'Brand',
+    name: gpu.brand,
+  },
+  offers: gpu.prices.map((price) => ({
+    '@type': 'Offer',
+    url: price.affiliateUrl,
+    priceCurrency: 'USD',
+    price: price.priceUsd,
+    availability: price.inStock
+      ? 'https://schema.org/InStock'
+      : 'https://schema.org/OutOfStock',
+    itemCondition:
+      price.condition === 'new'
+        ? 'https://schema.org/NewCondition'
+        : 'https://schema.org/UsedCondition',
+    seller: {
+      '@type': 'Organization',
+      name: price.retailer.charAt(0).toUpperCase() + price.retailer.slice(1),
+    },
+  })),
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: gpu.valueScore,
+    bestRating: 100,
+    worstRating: 0,
+    ratingCount: 1,
+  },
+};
+---
+
+<BaseLayout
+  title={gpu.name}
+  description={`${gpu.name} AI benchmarks, specs, and prices. ${gpu.vramGb}GB ${gpu.vramType}, SDXL: ${gpu.benchmarks?.sdxlImgsPerMin || 'N/A'} img/min. Value Score: ${gpu.valueScore}/100.`}
+  currentPath={`/gpus/${gpu.slug}`}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <article class="gpu-detail">
+    <div class="container">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol class="breadcrumb__list">
+          <li><a href="/">GPUs</a></li>
+          <li aria-current="page">{gpu.name}</li>
+        </ol>
+      </nav>
+
+      <!-- Header -->
+      <header class="gpu-detail__header">
+        <div class="gpu-detail__header-content">
+          <span class={`gpu-brand gpu-brand--${brandClass}`}>{gpu.brand}</span>
+          <h1 class="gpu-detail__title">{gpu.name}</h1>
+          <p class="gpu-detail__subtitle">
+            {gpu.architecture} • {gpu.vramGb}GB {gpu.vramType} • {gpu.tdpWatts}W TDP
+          </p>
+        </div>
+        <div class="gpu-detail__value-score">
+          <span class={`value-badge value-badge--${valueRating} value-badge--large`}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+            </svg>
+            {gpu.valueScore}
+          </span>
+          <span class="gpu-detail__value-label">
+            {valueRating === 'excellent' ? 'Excellent Value' : valueRating === 'good' ? 'Good Value' : 'Fair Value'}
+          </span>
+        </div>
+      </header>
+
+      <!-- Main Content Grid -->
+      <div class="gpu-detail__grid">
+        <!-- Left Column: Specs & Benchmarks -->
+        <div class="gpu-detail__main">
+          <!-- AI Benchmarks -->
+          <section class="gpu-detail__section">
+            <h2 class="gpu-detail__section-title">AI Performance</h2>
+            <div class="benchmark-grid">
+              {gpu.benchmarks?.sdxlImgsPerMin && (
+                <div class="benchmark-card">
+                  <span class="benchmark-card__label">SDXL 1024x1024</span>
+                  <span class="benchmark-card__value spec-value">{gpu.benchmarks.sdxlImgsPerMin}</span>
+                  <span class="benchmark-card__unit">images/min</span>
+                </div>
+              )}
+              {gpu.benchmarks?.llm7bTokensPerSec && (
+                <div class="benchmark-card">
+                  <span class="benchmark-card__label">LLM 7B Inference</span>
+                  <span class="benchmark-card__value spec-value">{gpu.benchmarks.llm7bTokensPerSec}</span>
+                  <span class="benchmark-card__unit">tokens/sec</span>
+                </div>
+              )}
+              {gpu.benchmarks?.llm13bTokensPerSec && (
+                <div class="benchmark-card">
+                  <span class="benchmark-card__label">LLM 13B Inference</span>
+                  <span class="benchmark-card__value spec-value">{gpu.benchmarks.llm13bTokensPerSec}</span>
+                  <span class="benchmark-card__unit">tokens/sec</span>
+                </div>
+              )}
+              {gpu.benchmarks?.maxModelSizeBillions && (
+                <div class="benchmark-card">
+                  <span class="benchmark-card__label">Max Model Size</span>
+                  <span class="benchmark-card__value spec-value">{gpu.benchmarks.maxModelSizeBillions}B</span>
+                  <span class="benchmark-card__unit">parameters</span>
+                </div>
+              )}
+            </div>
+            {gpu.benchmarks?.benchmarkSource && (
+              <p class="benchmark-source">
+                Source: {gpu.benchmarks.benchmarkSource} ({gpu.benchmarks.benchmarkDate})
+              </p>
+            )}
+          </section>
+
+          <!-- Specifications -->
+          <section class="gpu-detail__section">
+            <h2 class="gpu-detail__section-title">Specifications</h2>
+            <dl class="spec-table">
+              <div class="spec-table__row">
+                <dt>Architecture</dt>
+                <dd class="spec-value">{gpu.architecture}</dd>
+              </div>
+              <div class="spec-table__row">
+                <dt>VRAM</dt>
+                <dd class="spec-value">{gpu.vramGb}GB {gpu.vramType}</dd>
+              </div>
+              <div class="spec-table__row">
+                <dt>Memory Bandwidth</dt>
+                <dd class="spec-value">{formatNumber(gpu.memoryBandwidthGbps)} GB/s</dd>
+              </div>
+              {gpu.cudaCores && (
+                <div class="spec-table__row">
+                  <dt>CUDA Cores</dt>
+                  <dd class="spec-value">{formatNumber(gpu.cudaCores)}</dd>
+                </div>
+              )}
+              {gpu.streamProcessors && (
+                <div class="spec-table__row">
+                  <dt>Stream Processors</dt>
+                  <dd class="spec-value">{formatNumber(gpu.streamProcessors)}</dd>
+                </div>
+              )}
+              {gpu.tensorCores && (
+                <div class="spec-table__row">
+                  <dt>Tensor Cores</dt>
+                  <dd class="spec-value">{formatNumber(gpu.tensorCores)}</dd>
+                </div>
+              )}
+              <div class="spec-table__row">
+                <dt>Base Clock</dt>
+                <dd class="spec-value">{formatNumber(gpu.baseClockMhz)} MHz</dd>
+              </div>
+              <div class="spec-table__row">
+                <dt>Boost Clock</dt>
+                <dd class="spec-value">{formatNumber(gpu.boostClockMhz)} MHz</dd>
+              </div>
+              <div class="spec-table__row">
+                <dt>TDP</dt>
+                <dd class="spec-value">{gpu.tdpWatts}W</dd>
+              </div>
+              <div class="spec-table__row">
+                <dt>Release Date</dt>
+                <dd class="spec-value">{new Date(gpu.releaseDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</dd>
+              </div>
+              <div class="spec-table__row">
+                <dt>MSRP</dt>
+                <dd class="spec-value">{formatPrice(gpu.msrpUsd)}</dd>
+              </div>
+            </dl>
+          </section>
+        </div>
+
+        <!-- Right Column: Pricing -->
+        <aside class="gpu-detail__sidebar">
+          <div class="price-card">
+            <h2 class="price-card__title">Current Prices</h2>
+
+            {gpu.lowestUsedPrice && (
+              <div class="price-card__section">
+                <span class="price-card__label">Best Used Price</span>
+                <span class="price-card__price price">{formatPrice(gpu.lowestUsedPrice)}</span>
+              </div>
+            )}
+
+            {gpu.lowestNewPrice && (
+              <div class="price-card__section">
+                <span class="price-card__label">Best New Price</span>
+                <span class="price-card__price price">{formatPrice(gpu.lowestNewPrice)}</span>
+              </div>
+            )}
+
+            <div class="price-card__cta">
+              {gpu.prices[0] && (
+                <a
+                  href={gpu.prices[0].affiliateUrl}
+                  class="btn btn--primary btn--large"
+                  target="_blank"
+                  rel="noopener sponsored"
+                >
+                  Check Price on {gpu.prices[0].retailer.charAt(0).toUpperCase() + gpu.prices[0].retailer.slice(1)}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                </a>
+              )}
+            </div>
+
+            <p class="price-card__disclosure">
+              Prices updated {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}.
+              We may earn a commission on purchases.
+            </p>
+          </div>
+
+          <!-- Use Cases -->
+          <div class="use-cases">
+            <h3 class="use-cases__title">Good For</h3>
+            <ul class="use-cases__list">
+              {gpu.vramGb >= 24 && <li>Large language models (70B+)</li>}
+              {gpu.vramGb >= 16 && <li>SDXL & Flux image generation</li>}
+              {gpu.vramGb >= 12 && <li>Stable Diffusion 1.5</li>}
+              {gpu.benchmarks?.llm7bTokensPerSec && gpu.benchmarks.llm7bTokensPerSec >= 50 && <li>Fast LLM inference</li>}
+              {gpu.tdpWatts <= 250 && <li>Power-efficient builds</li>}
+              {gpu.tdpWatts >= 350 && <li>Maximum performance</li>}
+            </ul>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Similar GPUs -->
+      {similarGPUs.length > 0 && (
+        <section class="similar-gpus">
+          <h2 class="similar-gpus__title">Similar GPUs</h2>
+          <div class="similar-gpus__grid">
+            {similarGPUs.map((similar) => (
+              <a href={`/gpus/${similar.slug}`} class="similar-gpu-card card">
+                <span class={`gpu-brand gpu-brand--${similar.brand.toLowerCase()}`}>{similar.brand}</span>
+                <h3 class="similar-gpu-card__name">{similar.name}</h3>
+                <div class="similar-gpu-card__specs">
+                  <span>{similar.vramGb}GB</span>
+                  <span>•</span>
+                  <span>Score: {similar.valueScore}</span>
+                </div>
+                <span class="similar-gpu-card__price price">
+                  {similar.lowestUsedPrice ? formatPrice(similar.lowestUsedPrice) : formatPrice(similar.lowestNewPrice || 0)}
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .gpu-detail {
+    padding: var(--spacing-6) 0 var(--spacing-12);
+  }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    margin-bottom: var(--spacing-6);
+  }
+
+  .breadcrumb__list {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.875rem;
+  }
+
+  .breadcrumb__list li:not(:last-child)::after {
+    content: '/';
+    margin-left: var(--spacing-2);
+    color: var(--text-muted);
+  }
+
+  .breadcrumb__list a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  .breadcrumb__list a:hover {
+    color: var(--brand-primary);
+  }
+
+  .breadcrumb__list li[aria-current] {
+    color: var(--text-primary);
+  }
+
+  /* Header */
+  .gpu-detail__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-8);
+  }
+
+  @media (min-width: 768px) {
+    .gpu-detail__header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+  }
+
+  .gpu-detail__title {
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-weight: 700;
+    margin: var(--spacing-2) 0;
+    color: var(--text-primary);
+  }
+
+  .gpu-detail__subtitle {
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .gpu-detail__value-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-1);
+  }
+
+  .value-badge--large {
+    font-size: 1.25rem;
+    padding: var(--spacing-2) var(--spacing-4);
+  }
+
+  .gpu-detail__value-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  /* Grid Layout */
+  .gpu-detail__grid {
+    display: grid;
+    gap: var(--spacing-8);
+  }
+
+  @media (min-width: 1024px) {
+    .gpu-detail__grid {
+      grid-template-columns: 1fr 350px;
+    }
+  }
+
+  /* Sections */
+  .gpu-detail__section {
+    margin-bottom: var(--spacing-8);
+  }
+
+  .gpu-detail__section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 var(--spacing-4);
+    color: var(--text-primary);
+  }
+
+  /* Benchmark Grid */
+  .benchmark-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--spacing-3);
+  }
+
+  .benchmark-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-4);
+    text-align: center;
+  }
+
+  .benchmark-card__label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-2);
+  }
+
+  .benchmark-card__value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--brand-primary);
+  }
+
+  .benchmark-card__unit {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  .benchmark-source {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: var(--spacing-3);
+  }
+
+  /* Spec Table */
+  .spec-table {
+    margin: 0;
+  }
+
+  .spec-table__row {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-3) 0;
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .spec-table__row dt {
+    color: var(--text-secondary);
+  }
+
+  .spec-table__row dd {
+    margin: 0;
+    color: var(--text-primary);
+    text-align: right;
+  }
+
+  /* Price Card */
+  .price-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-6);
+    position: sticky;
+    top: 80px;
+  }
+
+  .price-card__title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 var(--spacing-4);
+    color: var(--text-primary);
+  }
+
+  .price-card__section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-3) 0;
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .price-card__label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+  }
+
+  .price-card__price {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+  }
+
+  .price-card__cta {
+    margin-top: var(--spacing-4);
+  }
+
+  .price-card__cta .btn {
+    width: 100%;
+  }
+
+  .btn--large {
+    padding: var(--spacing-3) var(--spacing-6);
+    font-size: 1rem;
+  }
+
+  .price-card__disclosure {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin: var(--spacing-4) 0 0;
+    text-align: center;
+  }
+
+  /* Use Cases */
+  .use-cases {
+    margin-top: var(--spacing-6);
+    padding: var(--spacing-4);
+    background-color: var(--bg-tertiary);
+    border-radius: var(--radius-lg);
+  }
+
+  .use-cases__title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin: 0 0 var(--spacing-3);
+    color: var(--text-primary);
+  }
+
+  .use-cases__list {
+    margin: 0;
+    padding: 0 0 0 var(--spacing-4);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  .use-cases__list li {
+    margin-bottom: var(--spacing-1);
+  }
+
+  /* Similar GPUs */
+  .similar-gpus {
+    margin-top: var(--spacing-12);
+    padding-top: var(--spacing-8);
+    border-top: 1px solid var(--border-default);
+  }
+
+  .similar-gpus__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 var(--spacing-6);
+    color: var(--text-primary);
+  }
+
+  .similar-gpus__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-4);
+  }
+
+  .similar-gpu-card {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+  }
+
+  .similar-gpu-card__name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-primary);
+  }
+
+  .similar-gpu-card__specs {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    display: flex;
+    gap: var(--spacing-2);
+  }
+
+  .similar-gpu-card__price {
+    margin-top: auto;
+    color: var(--text-primary);
+  }
+</style>

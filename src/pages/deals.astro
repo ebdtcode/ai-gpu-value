@@ -1,0 +1,715 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getAllGPUs } from '../lib/supabase';
+import { formatPrice, getValueRating } from '../types';
+import type { GPUWithData } from '../types';
+
+// Fetch GPUs from database
+const gpuData = await getAllGPUs();
+
+// Calculate deals - GPUs with prices below MSRP or good used prices
+interface Deal {
+  gpu: GPUWithData;
+  dealType: 'new' | 'used';
+  currentPrice: number;
+  originalPrice: number;
+  savings: number;
+  savingsPercent: number;
+  retailer: string;
+  url: string;
+}
+
+const deals: Deal[] = [];
+
+gpuData.forEach(gpu => {
+  // Check for new price deals (below MSRP)
+  if (gpu.lowestNewPrice && gpu.lowestNewPrice < gpu.msrpUsd) {
+    const savings = gpu.msrpUsd - gpu.lowestNewPrice;
+    const savingsPercent = Math.round((savings / gpu.msrpUsd) * 100);
+    const newPrice = gpu.prices.find(p => p.condition === 'new' && p.priceUsd === gpu.lowestNewPrice);
+    deals.push({
+      gpu,
+      dealType: 'new',
+      currentPrice: gpu.lowestNewPrice,
+      originalPrice: gpu.msrpUsd,
+      savings,
+      savingsPercent,
+      retailer: newPrice?.retailer || 'Various',
+      url: newPrice?.affiliateUrl || '#',
+    });
+  }
+
+  // Check for used deals (significant savings vs new)
+  if (gpu.lowestUsedPrice && gpu.lowestNewPrice) {
+    const savings = gpu.lowestNewPrice - gpu.lowestUsedPrice;
+    const savingsPercent = Math.round((savings / gpu.lowestNewPrice) * 100);
+    if (savingsPercent >= 10) { // Only show if at least 10% savings
+      const usedPrice = gpu.prices.find(p => p.condition === 'used' && p.priceUsd === gpu.lowestUsedPrice);
+      deals.push({
+        gpu,
+        dealType: 'used',
+        currentPrice: gpu.lowestUsedPrice,
+        originalPrice: gpu.lowestNewPrice,
+        savings,
+        savingsPercent,
+        retailer: usedPrice?.retailer || 'eBay',
+        url: usedPrice?.affiliateUrl || '#',
+      });
+    }
+  } else if (gpu.lowestUsedPrice && !gpu.lowestNewPrice) {
+    // Used only - compare to MSRP
+    const savings = gpu.msrpUsd - gpu.lowestUsedPrice;
+    const savingsPercent = Math.round((savings / gpu.msrpUsd) * 100);
+    if (savingsPercent >= 20) {
+      const usedPrice = gpu.prices.find(p => p.condition === 'used');
+      deals.push({
+        gpu,
+        dealType: 'used',
+        currentPrice: gpu.lowestUsedPrice,
+        originalPrice: gpu.msrpUsd,
+        savings,
+        savingsPercent,
+        retailer: usedPrice?.retailer || 'eBay',
+        url: usedPrice?.affiliateUrl || '#',
+      });
+    }
+  }
+});
+
+// Sort by savings percentage
+deals.sort((a, b) => b.savingsPercent - a.savingsPercent);
+
+// Get top value GPUs (highest value scores)
+const topValueGPUs = [...gpuData]
+  .filter(gpu => gpu.lowestNewPrice || gpu.lowestUsedPrice)
+  .sort((a, b) => b.valueScore - a.valueScore)
+  .slice(0, 6);
+
+// JSON-LD for deals page
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'GPU Deals for AI Workloads',
+  description: 'Find the best deals on GPUs for AI, machine learning, and Stable Diffusion. Compare prices across retailers.',
+  url: 'https://aigpuvalue.com/deals',
+};
+---
+
+<BaseLayout
+  title="GPU Deals"
+  description="Find the best deals on GPUs for AI workloads. Compare prices on new and used graphics cards for Stable Diffusion, LLMs, and machine learning."
+  currentPath="/deals"
+  jsonLd={jsonLd}
+>
+  <section class="deals-page">
+    <div class="container">
+      <header class="deals-header">
+        <h1 class="deals-header__title">GPU Deals</h1>
+        <p class="deals-header__subtitle">
+          Find the best prices on GPUs for AI workloads. We track prices across major retailers to help you save.
+        </p>
+      </header>
+
+      <!-- Current Deals Section -->
+      <section class="deals-section">
+        <h2 class="section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+            <line x1="7" y1="7" x2="7.01" y2="7"/>
+          </svg>
+          Current Deals
+        </h2>
+
+        {deals.length > 0 ? (
+          <div class="deals-grid">
+            {deals.map((deal) => (
+              <article class="deal-card">
+                <div class="deal-card__badge">
+                  <span class={`deal-type deal-type--${deal.dealType}`}>
+                    {deal.dealType === 'new' ? 'New' : 'Used'}
+                  </span>
+                  <span class="deal-savings">-{deal.savingsPercent}%</span>
+                </div>
+
+                <div class="deal-card__header">
+                  <span class={`gpu-brand gpu-brand--${deal.gpu.brand.toLowerCase()}`}>
+                    {deal.gpu.brand}
+                  </span>
+                  <h3 class="deal-card__title">
+                    <a href={`/gpus/${deal.gpu.slug}`}>{deal.gpu.model}</a>
+                  </h3>
+                </div>
+
+                <div class="deal-card__specs">
+                  <span class="spec">{deal.gpu.vramGb}GB {deal.gpu.vramType}</span>
+                  <span class="spec">{deal.gpu.benchmarks?.sdxlImgsPerMin || '—'} img/min SDXL</span>
+                </div>
+
+                <div class="deal-card__pricing">
+                  <div class="deal-card__price">
+                    <span class="current-price">{formatPrice(deal.currentPrice)}</span>
+                    <span class="original-price">{formatPrice(deal.originalPrice)}</span>
+                  </div>
+                  <span class="deal-card__savings">Save {formatPrice(deal.savings)}</span>
+                </div>
+
+                <div class="deal-card__value">
+                  <span class="value-label">Value Score</span>
+                  <span class={`value-badge value-badge--${getValueRating(deal.gpu.valueScore)}`}>
+                    {deal.gpu.valueScore}
+                  </span>
+                </div>
+
+                <div class="deal-card__actions">
+                  <a href={deal.url} class="btn btn--primary" target="_blank" rel="noopener noreferrer">
+                    View on {deal.retailer.charAt(0).toUpperCase() + deal.retailer.slice(1)}
+                  </a>
+                  <a href={`/gpus/${deal.gpu.slug}`} class="btn btn--secondary">
+                    Details
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div class="no-deals">
+            <p>No special deals available right now. Check back soon!</p>
+          </div>
+        )}
+      </section>
+
+      <!-- Best Value Section -->
+      <section class="deals-section">
+        <h2 class="section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+          Best Value GPUs for AI
+        </h2>
+        <p class="section-description">
+          These GPUs offer the best performance per dollar for AI workloads based on our value scoring algorithm.
+        </p>
+
+        <div class="value-grid">
+          {topValueGPUs.map((gpu, index) => (
+            <article class="value-card">
+              <div class="value-card__rank">#{index + 1}</div>
+
+              <div class="value-card__header">
+                <span class={`gpu-brand gpu-brand--${gpu.brand.toLowerCase()}`}>
+                  {gpu.brand}
+                </span>
+                <h3 class="value-card__title">
+                  <a href={`/gpus/${gpu.slug}`}>{gpu.model}</a>
+                </h3>
+                <span class={`value-badge value-badge--${getValueRating(gpu.valueScore)}`}>
+                  {gpu.valueScore}
+                </span>
+              </div>
+
+              <div class="value-card__specs">
+                <div class="spec-row">
+                  <span class="spec-label">VRAM</span>
+                  <span class="spec-value">{gpu.vramGb}GB {gpu.vramType}</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-label">SDXL</span>
+                  <span class="spec-value">{gpu.benchmarks?.sdxlImgsPerMin || '—'} img/min</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-label">LLM 7B</span>
+                  <span class="spec-value">{gpu.benchmarks?.llm7bTokensPerSec || '—'} tok/s</span>
+                </div>
+              </div>
+
+              <div class="value-card__price">
+                {gpu.lowestUsedPrice && (
+                  <div class="price-row">
+                    <span class="price-label">Used from</span>
+                    <span class="price-value price-value--used">{formatPrice(gpu.lowestUsedPrice)}</span>
+                  </div>
+                )}
+                {gpu.lowestNewPrice && (
+                  <div class="price-row">
+                    <span class="price-label">New from</span>
+                    <span class="price-value">{formatPrice(gpu.lowestNewPrice)}</span>
+                  </div>
+                )}
+              </div>
+
+              <a href={`/gpus/${gpu.slug}`} class="value-card__link">
+                View Details
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- Tips Section -->
+      <section class="deals-section tips-section">
+        <h2 class="section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="16" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+          Buying Tips
+        </h2>
+
+        <div class="tips-grid">
+          <div class="tip-card">
+            <h3>Consider Used GPUs</h3>
+            <p>Many used GPUs from the RTX 30 and 40 series offer excellent value for AI workloads. The RTX 3090 with 24GB VRAM is particularly popular for running larger models.</p>
+          </div>
+          <div class="tip-card">
+            <h3>VRAM is Key</h3>
+            <p>For AI workloads, VRAM is often more important than raw performance. A GPU with 16GB+ VRAM can run larger models that won't fit on 8GB cards.</p>
+          </div>
+          <div class="tip-card">
+            <h3>Check eBay Carefully</h3>
+            <p>When buying used, check seller ratings and return policies. Look for cards that weren't used for cryptocurrency mining, as these may have reduced lifespan.</p>
+          </div>
+          <div class="tip-card">
+            <h3>Price Alerts</h3>
+            <p>GPU prices fluctuate frequently. Consider setting up price alerts on sites like CamelCamelCamel for Amazon or using browser extensions to track deals.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .deals-page {
+    padding: var(--spacing-8) 0 var(--spacing-12);
+  }
+
+  .deals-header {
+    text-align: center;
+    margin-bottom: var(--spacing-10);
+  }
+
+  .deals-header__title {
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-weight: 700;
+    margin: 0 0 var(--spacing-2);
+    color: var(--text-primary);
+  }
+
+  .deals-header__subtitle {
+    color: var(--text-secondary);
+    margin: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .deals-section {
+    margin-bottom: var(--spacing-12);
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 var(--spacing-4);
+    color: var(--text-primary);
+  }
+
+  .section-title svg {
+    color: var(--brand-primary);
+  }
+
+  .section-description {
+    color: var(--text-secondary);
+    margin: 0 0 var(--spacing-6);
+  }
+
+  /* Deal Cards Grid */
+  .deals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--spacing-4);
+  }
+
+  .deal-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-4);
+    position: relative;
+    transition: all 0.15s ease;
+  }
+
+  .deal-card:hover {
+    border-color: var(--brand-primary);
+    box-shadow: var(--shadow-md);
+  }
+
+  .deal-card__badge {
+    display: flex;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-3);
+  }
+
+  .deal-type {
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .deal-type--new {
+    background-color: color-mix(in srgb, var(--brand-primary) 15%, transparent);
+    color: var(--brand-primary);
+  }
+
+  .deal-type--used {
+    background-color: color-mix(in srgb, var(--color-value-good) 15%, transparent);
+    color: var(--color-value-good);
+  }
+
+  .deal-savings {
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 700;
+    background-color: color-mix(in srgb, var(--color-value-excellent) 15%, transparent);
+    color: var(--color-value-excellent);
+  }
+
+  .deal-card__header {
+    margin-bottom: var(--spacing-3);
+  }
+
+  .deal-card__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: var(--spacing-1) 0 0;
+  }
+
+  .deal-card__title a {
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+
+  .deal-card__title a:hover {
+    color: var(--brand-primary);
+  }
+
+  .deal-card__specs {
+    display: flex;
+    gap: var(--spacing-3);
+    margin-bottom: var(--spacing-3);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  .deal-card__pricing {
+    background-color: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-3);
+    margin-bottom: var(--spacing-3);
+  }
+
+  .deal-card__price {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-1);
+  }
+
+  .current-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-value-excellent);
+  }
+
+  .original-price {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-decoration: line-through;
+  }
+
+  .deal-card__savings {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  .deal-card__value {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-4);
+    padding-top: var(--spacing-3);
+    border-top: 1px solid var(--border-default);
+  }
+
+  .value-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  .deal-card__actions {
+    display: flex;
+    gap: var(--spacing-2);
+  }
+
+  .deal-card__actions .btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  /* Value Cards Grid */
+  .value-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-4);
+  }
+
+  .value-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-4);
+    position: relative;
+    transition: all 0.15s ease;
+  }
+
+  .value-card:hover {
+    border-color: var(--brand-primary);
+    box-shadow: var(--shadow-md);
+  }
+
+  .value-card__rank {
+    position: absolute;
+    top: var(--spacing-3);
+    right: var(--spacing-3);
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--brand-primary);
+  }
+
+  .value-card__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-3);
+  }
+
+  .value-card__title {
+    flex: 1;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .value-card__title a {
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+
+  .value-card__title a:hover {
+    color: var(--brand-primary);
+  }
+
+  .value-card__specs {
+    margin-bottom: var(--spacing-3);
+  }
+
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-1) 0;
+    font-size: 0.875rem;
+  }
+
+  .spec-label {
+    color: var(--text-muted);
+  }
+
+  .spec-value {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .value-card__price {
+    background-color: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-2) var(--spacing-3);
+    margin-bottom: var(--spacing-3);
+  }
+
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-1) 0;
+    font-size: 0.875rem;
+  }
+
+  .price-label {
+    color: var(--text-muted);
+  }
+
+  .price-value {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .price-value--used {
+    color: var(--color-value-excellent);
+  }
+
+  .value-card__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-1);
+    padding: var(--spacing-2);
+    color: var(--brand-primary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    transition: background-color 0.15s ease;
+  }
+
+  .value-card__link:hover {
+    background-color: color-mix(in srgb, var(--brand-primary) 10%, transparent);
+  }
+
+  /* Tips Section */
+  .tips-section {
+    background-color: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-6);
+    border: 1px solid var(--border-default);
+  }
+
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-4);
+  }
+
+  .tip-card {
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-4);
+  }
+
+  .tip-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 var(--spacing-2);
+    color: var(--text-primary);
+  }
+
+  .tip-card p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .no-deals {
+    text-align: center;
+    padding: var(--spacing-8);
+    background-color: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    color: var(--text-muted);
+  }
+
+  /* Shared styles */
+  .gpu-brand {
+    display: inline-flex;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .gpu-brand--nvidia {
+    background-color: color-mix(in srgb, var(--color-gpu-nvidia) 15%, transparent);
+    color: var(--color-gpu-nvidia);
+  }
+
+  .gpu-brand--amd {
+    background-color: color-mix(in srgb, var(--color-gpu-amd) 15%, transparent);
+    color: var(--color-gpu-amd);
+  }
+
+  .gpu-brand--intel {
+    background-color: color-mix(in srgb, var(--color-gpu-intel) 15%, transparent);
+    color: var(--color-gpu-intel);
+  }
+
+  .value-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+
+  .value-badge--excellent {
+    background-color: color-mix(in srgb, var(--color-value-excellent) 15%, transparent);
+    color: var(--color-value-excellent);
+  }
+
+  .value-badge--good {
+    background-color: color-mix(in srgb, var(--color-value-good) 15%, transparent);
+    color: var(--color-value-good);
+  }
+
+  .value-badge--fair {
+    background-color: color-mix(in srgb, var(--color-value-fair) 15%, transparent);
+    color: var(--color-value-fair);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: none;
+  }
+
+  .btn--primary {
+    background-color: var(--brand-primary);
+    color: white;
+  }
+
+  .btn--primary:hover {
+    background-color: var(--brand-hover);
+  }
+
+  .btn--secondary {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border-default);
+  }
+
+  .btn--secondary:hover {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+  }
+</style>

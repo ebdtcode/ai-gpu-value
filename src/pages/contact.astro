@@ -1,0 +1,224 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Contact Us"
+  description="Get in touch with AIGPUValue.com - we'd love to hear your feedback, suggestions, or questions about GPU comparisons and AI workloads."
+  currentPath="/contact"
+>
+  <article class="contact-page">
+    <div class="container container--narrow">
+      <h1>Contact Us</h1>
+      <p class="contact-intro">
+        Have questions, suggestions, or found an error in our data? We'd love to hear from you. Choose the best way to reach us below.
+      </p>
+
+      <div class="contact-grid">
+        <section class="contact-card">
+          <div class="contact-card__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="20" height="16" x="2" y="4" rx="2"/>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+          </div>
+          <h2>General Inquiries</h2>
+          <p>Questions about the site, partnerships, or general feedback.</p>
+          <a href="mailto:contact@aigpuvalue.com" class="contact-link">contact@aigpuvalue.com</a>
+        </section>
+
+        <section class="contact-card">
+          <div class="contact-card__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9"/>
+              <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+            </svg>
+          </div>
+          <h2>Data Corrections</h2>
+          <p>Found incorrect specs, pricing, or benchmark data? Let us know.</p>
+          <a href="mailto:data@aigpuvalue.com" class="contact-link">data@aigpuvalue.com</a>
+        </section>
+
+        <section class="contact-card">
+          <div class="contact-card__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+            </svg>
+          </div>
+          <h2>Privacy Concerns</h2>
+          <p>Questions about your data or exercising your privacy rights.</p>
+          <a href="mailto:privacy@aigpuvalue.com" class="contact-link">privacy@aigpuvalue.com</a>
+        </section>
+
+        <section class="contact-card">
+          <div class="contact-card__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <h2>Press & Media</h2>
+          <p>Media inquiries, press requests, or interview opportunities.</p>
+          <a href="mailto:press@aigpuvalue.com" class="contact-link">press@aigpuvalue.com</a>
+        </section>
+      </div>
+
+      <section class="contact-section">
+        <h2>Frequently Asked Questions</h2>
+
+        <div class="faq-item">
+          <h3>How often is pricing data updated?</h3>
+          <p>We aim to update pricing data daily from major retailers including Amazon, eBay, Newegg, and B&H Photo. Used market prices are aggregated from recent eBay sold listings.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Where do your benchmark numbers come from?</h3>
+          <p>Our AI benchmarks are compiled from reputable sources including Tom's Hardware, Puget Systems, and community benchmarks from r/LocalLLaMA and r/StableDiffusion. We normalize results across different test methodologies for fair comparisons.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>How is the value score calculated?</h3>
+          <p>Our value score (0-100) considers SDXL performance (40%), LLM inference speed (30%), VRAM capacity (20%), and power efficiency (10%), normalized against current market prices. See our <a href="/about">About page</a> for more details.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Can I suggest a GPU to add?</h3>
+          <p>Absolutely! If you don't see a GPU that should be included, email us at data@aigpuvalue.com with the GPU model and we'll work on adding it.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Do you accept advertising?</h3>
+          <p>We currently do not accept display advertising or sponsored placements. Our revenue comes from affiliate commissions, and our recommendations are based solely on performance and value analysis.</p>
+        </div>
+      </section>
+
+      <section class="contact-section">
+        <h2>Response Times</h2>
+        <p>We typically respond to emails within 1-2 business days. For urgent data corrections that affect user purchasing decisions, we prioritize those requests.</p>
+      </section>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .contact-page {
+    padding: var(--spacing-8) 0 var(--spacing-16);
+  }
+
+  .container--narrow {
+    max-width: 800px;
+  }
+
+  .contact-page h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    margin: 0 0 var(--spacing-4);
+    color: var(--text-primary);
+  }
+
+  .contact-intro {
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+    line-height: 1.7;
+    margin: 0 0 var(--spacing-8);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-6);
+    margin-bottom: var(--spacing-12);
+  }
+
+  .contact-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-6);
+    text-align: center;
+  }
+
+  .contact-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: var(--brand-primary);
+    color: white;
+    border-radius: var(--radius-full);
+    margin-bottom: var(--spacing-4);
+  }
+
+  .contact-card h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 var(--spacing-2);
+    color: var(--text-primary);
+  }
+
+  .contact-card p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 0 0 var(--spacing-4);
+  }
+
+  .contact-link {
+    display: inline-block;
+    color: var(--brand-primary);
+    font-weight: 500;
+    text-decoration: none;
+    word-break: break-all;
+  }
+
+  .contact-link:hover {
+    text-decoration: underline;
+  }
+
+  .contact-section {
+    margin-bottom: var(--spacing-10);
+  }
+
+  .contact-section h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 var(--spacing-6);
+    color: var(--text-primary);
+    padding-bottom: var(--spacing-3);
+    border-bottom: 1px solid var(--border-primary);
+  }
+
+  .contact-section > p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .faq-item {
+    margin-bottom: var(--spacing-6);
+  }
+
+  .faq-item h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 var(--spacing-2);
+    color: var(--text-primary);
+  }
+
+  .faq-item p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .faq-item a {
+    color: var(--brand-primary);
+    text-decoration: none;
+  }
+
+  .faq-item a:hover {
+    text-decoration: underline;
+  }
+</style>

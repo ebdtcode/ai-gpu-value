@@ -1,0 +1,150 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About Us"
+  description="Learn about AIGPUValue.com - your trusted source for AI-focused GPU comparisons, benchmarks, and value analysis."
+  currentPath="/about"
+>
+  <article class="about-page">
+    <div class="container container--narrow">
+      <h1>About AIGPUValue</h1>
+
+      <section class="about-section">
+        <h2>Our Mission</h2>
+        <p>
+          AIGPUValue.com was created to help AI enthusiasts, researchers, and developers find the best graphics cards for their workloads without overpaying. Unlike traditional GPU review sites that focus on gaming benchmarks, we prioritize what matters for AI: VRAM capacity, tensor core performance, and real-world benchmarks for Stable Diffusion, LLMs, and other AI applications.
+        </p>
+      </section>
+
+      <section class="about-section">
+        <h2>What We Do</h2>
+        <ul>
+          <li>
+            <strong>AI-Focused Benchmarks:</strong> We test and compile performance data for Stable Diffusion, SDXL, Flux, and large language model inference - not just gaming FPS.
+          </li>
+          <li>
+            <strong>Real-Time Price Tracking:</strong> We monitor prices across Amazon, eBay, Newegg, and other retailers to find you the best deals on new and used GPUs.
+          </li>
+          <li>
+            <strong>Value Analysis:</strong> Our proprietary value score helps you understand which GPUs offer the best performance per dollar for AI workloads.
+          </li>
+          <li>
+            <strong>Unbiased Recommendations:</strong> We recommend based on performance and value, not advertising relationships.
+          </li>
+        </ul>
+      </section>
+
+      <section class="about-section">
+        <h2>Our Value Score</h2>
+        <p>
+          Our value score (0-100) is calculated using a weighted formula that considers:
+        </p>
+        <ul>
+          <li><strong>40%</strong> - SDXL image generation performance</li>
+          <li><strong>30%</strong> - LLM inference speed (7B models)</li>
+          <li><strong>20%</strong> - VRAM capacity (crucial for larger models)</li>
+          <li><strong>10%</strong> - Power efficiency (performance per watt)</li>
+        </ul>
+        <p>
+          The score is then normalized against current market prices to give you a true sense of value.
+        </p>
+      </section>
+
+      <section class="about-section">
+        <h2>Data Sources</h2>
+        <p>
+          Our benchmark data comes from reputable sources including:
+        </p>
+        <ul>
+          <li>Tom's Hardware GPU benchmarks</li>
+          <li>Puget Systems workstation benchmarks</li>
+          <li>Community benchmarks from r/LocalLLaMA and r/StableDiffusion</li>
+          <li>Official manufacturer specifications</li>
+        </ul>
+        <p>
+          Prices are updated daily from major retailers and the used market.
+        </p>
+      </section>
+
+      <section class="about-section">
+        <h2>Affiliate Disclosure</h2>
+        <p>
+          AIGPUValue.com participates in affiliate programs including Amazon Associates, eBay Partner Network, Newegg Affiliate Program, and others. When you click our links and make a purchase, we may earn a small commission at no extra cost to you. This helps us maintain and improve our free comparison tools.
+        </p>
+        <p>
+          Our recommendations are based solely on performance data and value analysis. We do not accept payment to promote specific products.
+        </p>
+      </section>
+
+      <section class="about-section">
+        <h2>Contact Us</h2>
+        <p>
+          Have questions, suggestions, or found an error? We'd love to hear from you.
+        </p>
+        <p>
+          Email: <a href="mailto:contact@aigpuvalue.com">contact@aigpuvalue.com</a>
+        </p>
+      </section>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .about-page {
+    padding: var(--spacing-8) 0 var(--spacing-16);
+  }
+
+  .container--narrow {
+    max-width: 720px;
+  }
+
+  .about-page h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    margin: 0 0 var(--spacing-8);
+    color: var(--text-primary);
+  }
+
+  .about-section {
+    margin-bottom: var(--spacing-8);
+  }
+
+  .about-section h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 var(--spacing-4);
+    color: var(--text-primary);
+  }
+
+  .about-section p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0 0 var(--spacing-4);
+  }
+
+  .about-section ul {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    padding-left: var(--spacing-6);
+    margin: 0 0 var(--spacing-4);
+  }
+
+  .about-section li {
+    margin-bottom: var(--spacing-2);
+  }
+
+  .about-section strong {
+    color: var(--text-primary);
+  }
+
+  .about-section a {
+    color: var(--brand-primary);
+    text-decoration: none;
+  }
+
+  .about-section a:hover {
+    text-decoration: underline;
+  }
+</style>

@@ -1,0 +1,387 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GPUFinderQuiz from '../../components/GPUFinderQuiz';
+import { getAllGPUs } from '../../lib/supabase';
+
+const gpuData = await getAllGPUs();
+---
+
+<BaseLayout
+  title="GPU Finder Quiz"
+  description="Answer a few questions to find the perfect GPU for your AI workloads. Get personalized recommendations based on your budget, use case, and requirements."
+  currentPath="/tools/gpu-finder"
+>
+  <section class="finder-page">
+    <div class="container">
+      <header class="finder-header">
+        <h1>GPU Finder Quiz</h1>
+        <p class="finder-intro">
+          Not sure which GPU is right for you? Answer a few quick questions and we'll recommend the best options for your specific needs.
+        </p>
+      </header>
+
+      <div id="quiz-container">
+        <GPUFinderQuiz client:only="react" allGPUs={gpuData} />
+      </div>
+
+      <noscript>
+        <p class="noscript-message">
+          JavaScript is required to use the GPU Finder Quiz.
+          Alternatively, browse our <a href="/">GPU comparison table</a> to find the right card.
+        </p>
+      </noscript>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .finder-page {
+    padding: var(--spacing-8) 0 var(--spacing-16);
+    min-height: 70vh;
+  }
+
+  .finder-header {
+    text-align: center;
+    margin-bottom: var(--spacing-8);
+  }
+
+  .finder-header h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    margin: 0 0 var(--spacing-4);
+    color: var(--text-primary);
+  }
+
+  .finder-intro {
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  #quiz-container {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .noscript-message {
+    text-align: center;
+    padding: var(--spacing-8);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    color: var(--text-secondary);
+  }
+
+  .noscript-message a {
+    color: var(--brand-primary);
+  }
+</style>
+
+<style is:global>
+  /* Quiz Container */
+  .quiz-container {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+  }
+
+  /* Progress Bar */
+  .quiz-progress {
+    height: 4px;
+    background: var(--bg-tertiary);
+  }
+
+  .quiz-progress__bar {
+    height: 100%;
+    background: var(--brand-primary);
+    transition: width 0.3s ease;
+  }
+
+  /* Quiz Step */
+  .quiz-step {
+    padding: var(--spacing-8);
+  }
+
+  .quiz-step__header {
+    text-align: center;
+    margin-bottom: var(--spacing-8);
+  }
+
+  .quiz-step__number {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--brand-primary);
+    margin-bottom: var(--spacing-2);
+  }
+
+  .quiz-step__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-2);
+  }
+
+  .quiz-step__subtitle {
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  /* Quiz Options */
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+    margin-bottom: var(--spacing-6);
+  }
+
+  .quiz-option {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--spacing-4) var(--spacing-5);
+    background: var(--bg-primary);
+    border: 2px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    width: 100%;
+  }
+
+  .quiz-option:hover {
+    border-color: var(--brand-primary);
+    background: var(--bg-tertiary);
+  }
+
+  .quiz-option--selected {
+    border-color: var(--brand-primary);
+    background: color-mix(in srgb, var(--brand-primary) 10%, transparent);
+  }
+
+  .quiz-option__label {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+  }
+
+  .quiz-option__description {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-top: var(--spacing-1);
+  }
+
+  /* Quiz Buttons */
+  .quiz-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-3) var(--spacing-6);
+    font-weight: 500;
+    font-size: 0.9375rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    border: none;
+  }
+
+  .quiz-btn--primary {
+    background: var(--brand-primary);
+    color: white;
+  }
+
+  .quiz-btn--primary:hover {
+    background: var(--brand-hover);
+  }
+
+  .quiz-btn--secondary {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-primary);
+  }
+
+  .quiz-btn--secondary:hover {
+    background: var(--bg-primary);
+  }
+
+  .quiz-btn--back {
+    background: transparent;
+    color: var(--text-secondary);
+    padding: var(--spacing-2) 0;
+  }
+
+  .quiz-btn--back:hover {
+    color: var(--text-primary);
+  }
+
+  /* Quiz Results */
+  .quiz-results {
+    padding: var(--spacing-8);
+  }
+
+  .quiz-results__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-2);
+    text-align: center;
+  }
+
+  .quiz-results__subtitle {
+    color: var(--text-secondary);
+    text-align: center;
+    margin: 0 0 var(--spacing-8);
+  }
+
+  .quiz-no-results {
+    text-align: center;
+    padding: var(--spacing-8);
+  }
+
+  .quiz-no-results p {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-6);
+  }
+
+  /* Recommendations */
+  .quiz-recommendations {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-8);
+  }
+
+  .quiz-recommendation {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    padding: var(--spacing-4) var(--spacing-5);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .quiz-recommendation:hover {
+    border-color: var(--brand-primary);
+    transform: translateX(4px);
+  }
+
+  .quiz-recommendation--top {
+    border-color: var(--brand-primary);
+    background: color-mix(in srgb, var(--brand-primary) 5%, var(--bg-primary));
+  }
+
+  .quiz-recommendation__badge {
+    position: absolute;
+    top: -10px;
+    left: var(--spacing-4);
+    padding: var(--spacing-1) var(--spacing-3);
+    background: var(--brand-primary);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+  }
+
+  .quiz-recommendation__rank {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  .quiz-recommendation--top .quiz-recommendation__rank {
+    background: var(--brand-primary);
+    color: white;
+  }
+
+  .quiz-recommendation__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .quiz-recommendation__name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-1);
+  }
+
+  .quiz-recommendation__specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2) var(--spacing-4);
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+  }
+
+  .quiz-recommendation__benchmarks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2) var(--spacing-4);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: var(--spacing-1);
+  }
+
+  .quiz-recommendation__price {
+    flex-shrink: 0;
+    text-align: right;
+  }
+
+  .quiz-recommendation__price-value {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--brand-primary);
+  }
+
+  .quiz-recommendation__price-condition {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  /* Quiz Actions */
+  .quiz-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-4);
+    flex-wrap: wrap;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 640px) {
+    .quiz-step,
+    .quiz-results {
+      padding: var(--spacing-6);
+    }
+
+    .quiz-recommendation {
+      flex-wrap: wrap;
+    }
+
+    .quiz-recommendation__price {
+      width: 100%;
+      text-align: left;
+      margin-top: var(--spacing-2);
+      padding-top: var(--spacing-2);
+      border-top: 1px solid var(--border-primary);
+    }
+  }
+</style>

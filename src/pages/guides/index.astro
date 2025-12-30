@@ -1,0 +1,611 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const guides = await getCollection('guides', ({ data }) => !data.draft);
+const sortedGuides = guides.sort((a, b) =>
+  b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+// Separate featured and regular guides
+const featuredGuides = sortedGuides.filter(g => g.data.featured);
+const regularGuides = sortedGuides.filter(g => !g.data.featured);
+
+const categories = {
+  'buying-guides': { label: 'Buying Guides', color: '#10b981' },
+  'tutorials': { label: 'Tutorials', color: '#3b82f6' },
+  'comparisons': { label: 'Comparisons', color: '#8b5cf6' },
+  'news': { label: 'News', color: '#f59e0b' },
+};
+
+// Get category color for a guide
+function getCategoryColor(category: string): string {
+  return categories[category as keyof typeof categories]?.color || '#6b7280';
+}
+---
+
+<BaseLayout
+  title="GPU Guides & Articles"
+  description="Expert guides on choosing GPUs for AI workloads, Stable Diffusion tutorials, LLM optimization tips, and GPU comparisons."
+  currentPath="/guides"
+>
+  <section class="guides-page">
+    <div class="container">
+      <header class="guides-header">
+        <h1 class="guides-header__title">Guides & Articles</h1>
+        <p class="guides-header__subtitle">
+          Expert advice on choosing and optimizing GPUs for AI workloads
+        </p>
+      </header>
+
+      <!-- Category Filter -->
+      <nav class="category-nav" aria-label="Filter by category">
+        <button class="category-nav__btn category-nav__btn--active" data-category="all">
+          All
+        </button>
+        {Object.entries(categories).map(([key, { label }]) => (
+          <button class="category-nav__btn" data-category={key}>
+            {label}
+          </button>
+        ))}
+      </nav>
+
+      <!-- Featured Guides Section -->
+      {featuredGuides.length > 0 && (
+        <div class="featured-section">
+          <h2 class="section-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            Featured
+          </h2>
+          <div class="featured-grid">
+            {featuredGuides.map((guide, index) => (
+              <article
+                class={`guide-card guide-card--featured ${index === 0 ? 'guide-card--hero' : ''}`}
+                data-category={guide.data.category}
+              >
+                <a href={`/guides/${guide.slug}`} class="guide-card__link">
+                  <div class="guide-card__image-wrapper">
+                    {guide.data.featuredImage ? (
+                      <img
+                        src={guide.data.featuredImage}
+                        alt={guide.data.title}
+                        class="guide-card__image"
+                        loading={index === 0 ? 'eager' : 'lazy'}
+                      />
+                    ) : (
+                      <div class="guide-card__image-fallback" style={`background: linear-gradient(135deg, ${getCategoryColor(guide.data.category)} 0%, ${getCategoryColor(guide.data.category)}99 100%)`}>
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                          <rect x="3" y="3" width="18" height="18" rx="2" />
+                          <circle cx="8.5" cy="8.5" r="1.5" />
+                          <path d="M21 15l-5-5L5 21" />
+                        </svg>
+                      </div>
+                    )}
+                    <div class="guide-card__overlay">
+                      <span
+                        class="guide-card__category-badge"
+                        style={`background-color: ${getCategoryColor(guide.data.category)}`}
+                      >
+                        {categories[guide.data.category as keyof typeof categories]?.label}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="guide-card__content">
+                    <h3 class="guide-card__title">{guide.data.title}</h3>
+                    <p class="guide-card__description">{guide.data.description}</p>
+                    <div class="guide-card__meta">
+                      <div class="guide-card__meta-left">
+                        <time datetime={guide.data.publishDate.toISOString()}>
+                          {guide.data.publishDate.toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric',
+                          })}
+                        </time>
+                        {guide.data.readingTime && (
+                          <>
+                            <span class="guide-card__separator">•</span>
+                            <span class="guide-card__reading-time">
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 6v6l4 2"/>
+                              </svg>
+                              {guide.data.readingTime} min read
+                            </span>
+                          </>
+                        )}
+                      </div>
+                      <span class="guide-card__read-more">
+                        Read article
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                      </span>
+                    </div>
+                    {guide.data.tags && guide.data.tags.length > 0 && (
+                      <div class="guide-card__tags">
+                        {guide.data.tags.slice(0, 3).map((tag: string) => (
+                          <span class="guide-card__tag">{tag}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </a>
+              </article>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <!-- All Guides Grid -->
+      <div class="all-guides-section">
+        {regularGuides.length > 0 && featuredGuides.length > 0 && (
+          <h2 class="section-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+            More Articles
+          </h2>
+        )}
+        <div class="guides-grid" id="guides-grid">
+          {(featuredGuides.length > 0 ? regularGuides : sortedGuides).map((guide) => (
+            <article class="guide-card" data-category={guide.data.category}>
+              <a href={`/guides/${guide.slug}`} class="guide-card__link">
+                <div class="guide-card__image-wrapper">
+                  {guide.data.featuredImage ? (
+                    <img
+                      src={guide.data.featuredImage}
+                      alt={guide.data.title}
+                      class="guide-card__image"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div class="guide-card__image-fallback" style={`background: linear-gradient(135deg, ${getCategoryColor(guide.data.category)} 0%, ${getCategoryColor(guide.data.category)}99 100%)`}>
+                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <circle cx="8.5" cy="8.5" r="1.5" />
+                        <path d="M21 15l-5-5L5 21" />
+                      </svg>
+                    </div>
+                  )}
+                  <div class="guide-card__overlay">
+                    <span
+                      class="guide-card__category-badge"
+                      style={`background-color: ${getCategoryColor(guide.data.category)}`}
+                    >
+                      {categories[guide.data.category as keyof typeof categories]?.label}
+                    </span>
+                  </div>
+                </div>
+                <div class="guide-card__content">
+                  <h3 class="guide-card__title">{guide.data.title}</h3>
+                  <p class="guide-card__description">{guide.data.description}</p>
+                  <div class="guide-card__meta">
+                    <div class="guide-card__meta-left">
+                      <time datetime={guide.data.publishDate.toISOString()}>
+                        {guide.data.publishDate.toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })}
+                      </time>
+                      {guide.data.readingTime && (
+                        <>
+                          <span class="guide-card__separator">•</span>
+                          <span class="guide-card__reading-time">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                              <circle cx="12" cy="12" r="10"/>
+                              <path d="M12 6v6l4 2"/>
+                            </svg>
+                            {guide.data.readingTime} min
+                          </span>
+                        </>
+                      )}
+                    </div>
+                    <span class="guide-card__read-more">
+                      Read
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      {sortedGuides.length === 0 && (
+        <div class="guides-empty">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <p>No guides published yet. Check back soon!</p>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.category-nav__btn');
+    const cards = document.querySelectorAll('.guide-card');
+    const featuredSection = document.querySelector('.featured-section');
+    const moreSection = document.querySelector('.all-guides-section .section-title');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const category = button.getAttribute('data-category');
+
+        // Update active button
+        buttons.forEach(b => b.classList.remove('category-nav__btn--active'));
+        button.classList.add('category-nav__btn--active');
+
+        // Show/hide sections based on filter
+        if (category !== 'all') {
+          if (featuredSection) (featuredSection as HTMLElement).style.display = 'none';
+          if (moreSection) (moreSection as HTMLElement).style.display = 'none';
+        } else {
+          if (featuredSection) (featuredSection as HTMLElement).style.display = '';
+          if (moreSection) (moreSection as HTMLElement).style.display = '';
+        }
+
+        // Filter cards
+        cards.forEach(card => {
+          const cardCategory = card.getAttribute('data-category');
+          if (category === 'all' || cardCategory === category) {
+            (card as HTMLElement).style.display = '';
+          } else {
+            (card as HTMLElement).style.display = 'none';
+          }
+        });
+      });
+    });
+  });
+</script>
+
+<style>
+  .guides-page {
+    padding: var(--spacing-8) 0 var(--spacing-16);
+  }
+
+  .guides-header {
+    text-align: center;
+    margin-bottom: var(--spacing-8);
+  }
+
+  .guides-header__title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    margin: 0 0 var(--spacing-2);
+    color: var(--text-primary);
+  }
+
+  .guides-header__subtitle {
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 1.125rem;
+  }
+
+  /* Section Titles */
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-6);
+  }
+
+  .section-title svg {
+    color: var(--brand-primary);
+  }
+
+  /* Category Navigation */
+  .category-nav {
+    display: flex;
+    gap: var(--spacing-2);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: var(--spacing-10);
+  }
+
+  .category-nav__btn {
+    padding: var(--spacing-2) var(--spacing-4);
+    background: none;
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-full);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .category-nav__btn:hover {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+  }
+
+  .category-nav__btn--active {
+    background-color: var(--brand-primary);
+    border-color: var(--brand-primary);
+    color: white;
+  }
+
+  /* Featured Section */
+  .featured-section {
+    margin-bottom: var(--spacing-12);
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-6);
+  }
+
+  /* Guide Cards */
+  .guide-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    transition: all 0.25s ease;
+  }
+
+  .guide-card:hover {
+    border-color: var(--brand-primary);
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--brand-primary) 15%, transparent);
+    transform: translateY(-4px);
+  }
+
+  .guide-card--hero {
+    grid-column: span 2;
+  }
+
+  .guide-card--hero .guide-card__link {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    min-height: 320px;
+  }
+
+  .guide-card--hero .guide-card__image-wrapper {
+    aspect-ratio: auto;
+    height: 100%;
+  }
+
+  .guide-card--hero .guide-card__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--spacing-8);
+  }
+
+  .guide-card--hero .guide-card__title {
+    font-size: 1.5rem;
+  }
+
+  .guide-card--hero .guide-card__description {
+    -webkit-line-clamp: 4;
+    font-size: 1rem;
+  }
+
+  .guide-card__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .guide-card__image-wrapper {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .guide-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .guide-card:hover .guide-card__image {
+    transform: scale(1.05);
+  }
+
+  .guide-card__image-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0.8;
+  }
+
+  .guide-card__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: var(--spacing-3);
+    background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 100%);
+  }
+
+  .guide-card__category-badge {
+    display: inline-block;
+    padding: var(--spacing-1) var(--spacing-3);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: white;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .guide-card__content {
+    padding: var(--spacing-5);
+  }
+
+  .guide-card__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 var(--spacing-2);
+    color: var(--text-primary);
+    line-height: 1.4;
+    transition: color 0.2s ease;
+  }
+
+  .guide-card:hover .guide-card__title {
+    color: var(--brand-primary);
+  }
+
+  .guide-card__description {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 0 0 var(--spacing-4);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .guide-card__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+  }
+
+  .guide-card__meta-left {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+  }
+
+  .guide-card__separator {
+    opacity: 0.5;
+  }
+
+  .guide-card__reading-time {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .guide-card__reading-time svg {
+    opacity: 0.7;
+  }
+
+  .guide-card__read-more {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--brand-primary);
+    font-weight: 500;
+    transition: gap 0.2s ease;
+  }
+
+  .guide-card:hover .guide-card__read-more {
+    gap: 8px;
+  }
+
+  .guide-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+    margin-top: var(--spacing-4);
+    padding-top: var(--spacing-4);
+    border-top: 1px solid var(--border-default);
+  }
+
+  .guide-card__tag {
+    padding: 2px var(--spacing-2);
+    background-color: var(--bg-tertiary);
+    color: var(--text-muted);
+    font-size: 0.6875rem;
+    border-radius: var(--radius-sm);
+    text-transform: lowercase;
+  }
+
+  /* All Guides Section */
+  .all-guides-section {
+    margin-top: var(--spacing-8);
+  }
+
+  .guides-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--spacing-6);
+  }
+
+  .guides-empty {
+    text-align: center;
+    padding: var(--spacing-16) 0;
+    color: var(--text-muted);
+  }
+
+  .guides-empty svg {
+    margin-bottom: var(--spacing-4);
+    opacity: 0.5;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .featured-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .guide-card--hero {
+      grid-column: span 1;
+    }
+
+    .guide-card--hero .guide-card__link {
+      display: block;
+      min-height: auto;
+    }
+
+    .guide-card--hero .guide-card__image-wrapper {
+      aspect-ratio: 16/9;
+    }
+
+    .guide-card--hero .guide-card__content {
+      padding: var(--spacing-5);
+    }
+
+    .guide-card--hero .guide-card__title {
+      font-size: 1.25rem;
+    }
+
+    .guide-card--hero .guide-card__description {
+      -webkit-line-clamp: 2;
+      font-size: 0.875rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .guides-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .category-nav {
+      overflow-x: auto;
+      justify-content: flex-start;
+      padding-bottom: var(--spacing-2);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .category-nav__btn {
+      flex-shrink: 0;
+    }
+  }
+</style>

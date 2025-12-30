@@ -1,0 +1,255 @@
+---
+const currentYear = new Date().getFullYear();
+
+const footerLinks = {
+  product: [
+    { href: '/', label: 'GPU Comparison' },
+    { href: '/compare', label: 'Compare GPUs' },
+    { href: '/deals', label: 'Best Deals' },
+    { href: '/tools/gpu-finder', label: 'GPU Finder Quiz' },
+  ],
+  resources: [
+    { href: '/guides/how-much-vram-do-i-need', label: 'VRAM Guide' },
+    { href: '/guides/building-ai-pc', label: 'Build an AI PC' },
+    { href: '/guides/used-gpu-buying-guide', label: 'Buying Used GPUs' },
+    { href: '/blog', label: 'Blog' },
+  ],
+  company: [
+    { href: '/about', label: 'About Us' },
+    { href: '/contact', label: 'Contact' },
+    { href: '/privacy', label: 'Privacy Policy' },
+    { href: '/terms', label: 'Terms of Service' },
+  ],
+};
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <!-- Brand Column -->
+      <div class="footer__brand">
+        <a href="/" class="footer__logo" aria-label="AIGPUValue Home">
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <rect width="32" height="32" rx="8" fill="var(--brand-primary)" />
+            <path
+              d="M8 12L16 8L24 12V20L16 24L8 20V12Z"
+              stroke="white"
+              stroke-width="2"
+              stroke-linejoin="round"
+            />
+            <path d="M16 16V24" stroke="white" stroke-width="2" />
+            <path d="M16 16L24 12" stroke="white" stroke-width="2" />
+            <path d="M16 16L8 12" stroke="white" stroke-width="2" />
+          </svg>
+          <span class="footer__logo-text">
+            <span class="footer__logo-primary">AIGPU</span><span class="footer__logo-secondary">Value</span>
+          </span>
+        </a>
+        <p class="footer__tagline">
+          Find the best GPU value for AI workloads. Compare performance, prices, and get personalized recommendations.
+        </p>
+      </div>
+
+      <!-- Links Columns -->
+      <div class="footer__links">
+        <div class="footer__column">
+          <h3 class="footer__heading">Product</h3>
+          <ul class="footer__list">
+            {footerLinks.product.map((link) => (
+              <li>
+                <a href={link.href} class="footer__link">{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="footer__column">
+          <h3 class="footer__heading">Resources</h3>
+          <ul class="footer__list">
+            {footerLinks.resources.map((link) => (
+              <li>
+                <a href={link.href} class="footer__link">{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="footer__column">
+          <h3 class="footer__heading">Company</h3>
+          <ul class="footer__list">
+            {footerLinks.company.map((link) => (
+              <li>
+                <a href={link.href} class="footer__link">{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Affiliate Disclosure -->
+    <div class="footer__disclosure">
+      <p>
+        <strong>Affiliate Disclosure:</strong> AIGPUValue.com participates in affiliate programs including Amazon Associates, eBay Partner Network, and others. We may earn a commission when you purchase through our links at no additional cost to you. This helps support our site and allows us to continue providing free GPU comparison tools and guides.
+      </p>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer__bottom">
+      <p class="footer__copyright">
+        &copy; {currentYear} AIGPUValue.com. All rights reserved.
+      </p>
+      <p class="footer__update">
+        Data last updated: <time datetime={new Date().toISOString().split('T')[0]}>{new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</time>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-color: var(--bg-secondary);
+    border-top: 1px solid var(--border-default);
+    margin-top: auto;
+    padding: var(--spacing-12) 0 var(--spacing-6);
+  }
+
+  .footer__grid {
+    display: grid;
+    gap: var(--spacing-8);
+  }
+
+  @media (min-width: 768px) {
+    .footer__grid {
+      grid-template-columns: 1fr 2fr;
+      gap: var(--spacing-12);
+    }
+  }
+
+  .footer__brand {
+    max-width: 280px;
+  }
+
+  .footer__logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    text-decoration: none;
+    margin-bottom: var(--spacing-4);
+  }
+
+  .footer__logo-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  .footer__logo-primary {
+    color: var(--brand-primary);
+  }
+
+  .footer__logo-secondary {
+    color: var(--text-primary);
+  }
+
+  .footer__tagline {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .footer__links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-8);
+  }
+
+  @media (min-width: 640px) {
+    .footer__links {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .footer__column {
+    min-width: 0;
+  }
+
+  .footer__heading {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-4);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .footer__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+  }
+
+  .footer__link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.15s ease;
+  }
+
+  .footer__link:hover {
+    color: var(--brand-primary);
+  }
+
+  .footer__disclosure {
+    margin-top: var(--spacing-8);
+    padding: var(--spacing-4);
+    background-color: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+  }
+
+  .footer__disclosure p {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .footer__disclosure strong {
+    color: var(--text-secondary);
+  }
+
+  .footer__bottom {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    margin-top: var(--spacing-8);
+    padding-top: var(--spacing-6);
+    border-top: 1px solid var(--border-default);
+  }
+
+  @media (min-width: 640px) {
+    .footer__bottom {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .footer__copyright,
+  .footer__update {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    margin: 0;
+  }
+</style>
