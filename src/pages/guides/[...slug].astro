@@ -79,7 +79,7 @@ const jsonLd = {
             {guide.data.publishDate.toLocaleDateString('en-US', {
               month: 'long',
               day: 'numeric',
-              year: 'numeric',
+              year: 'numeric', timeZone: 'UTC',
             })}
           </time>
           {guide.data.updatedDate && (
@@ -88,7 +88,7 @@ const jsonLd = {
               <span>Updated: {guide.data.updatedDate.toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
-                year: 'numeric',
+                year: 'numeric', timeZone: 'UTC',
               })}</span>
             </>
           )}
@@ -115,11 +115,11 @@ const jsonLd = {
       </div>
 
       <!-- Tags -->
-      {guide.data.tags.length > 0 && (
+      {(guide.data.tags?.length ?? 0) > 0 && (
         <footer class="guide-footer">
           <div class="guide-tags">
             <span class="guide-tags__label">Tags:</span>
-            {guide.data.tags.map((tag: string) => (
+            {guide.data.tags?.map((tag: string) => (
               <span class="guide-tags__tag">{tag}</span>
             ))}
           </div>
