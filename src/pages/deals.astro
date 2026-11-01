@@ -1,11 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getAllGPUs } from '../lib/supabase';
+import { getAllGPUs } from '../lib/data';
 import { formatPrice, getValueRating } from '../types';
 import type { GPUWithData } from '../types';
 
 // Fetch GPUs from database
-const gpuData = await getAllGPUs();
+const gpuData = getAllGPUs();
 
 // Calculate deals - GPUs with prices below MSRP or good used prices
 interface Deal {

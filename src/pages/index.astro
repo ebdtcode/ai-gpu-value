@@ -1,10 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GPUList from '../components/GPUList';
-import { getAllGPUs } from '../lib/supabase';
+import { getAllGPUs, getDataFreshness, formatDate } from '../lib/data';
 
-// Fetch GPU data from Supabase (falls back to sample data if not configured)
-const gpuData = await getAllGPUs();
+const gpuData = getAllGPUs();
+const freshness = getDataFreshness();
+const pricesUpdatedLabel = freshness.pricesUpdatedAt
+  ? `Prices checked ${formatDate(freshness.pricesUpdatedAt)}`
+  : 'No current price data';
 
 // JSON-LD structured data for homepage
 const jsonLd = {
@@ -53,8 +56,8 @@ const jsonLd = {
           <span class="hero__stat-label">AI Benchmarks</span>
         </div>
         <div class="hero__stat">
-          <span class="hero__stat-value">4</span>
-          <span class="hero__stat-label">Retailers Tracked</span>
+          <span class="hero__stat-value">{freshness.retailers.length}</span>
+          <span class="hero__stat-label">Retailers Checked Weekly</span>
         </div>
       </div>
     </div>
@@ -67,8 +70,8 @@ const jsonLd = {
 
       <!-- Results Info -->
       <div class="results-info">
-        <p class="results-info__update">
-          Prices updated: {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+        <p class="results-info__update" data-prices-updated={freshness.pricesUpdatedAt?.toISOString() ?? ''}>
+          {pricesUpdatedLabel}. Each price links to the retailer listing it came from.
         </p>
       </div>
     </div>
@@ -97,9 +100,9 @@ const jsonLd = {
               <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
             </svg>
           </div>
-          <h3 class="feature__title">Real-Time Prices</h3>
+          <h3 class="feature__title">Weekly Price Checks</h3>
           <p class="feature__description">
-            Track prices from Amazon, eBay, Newegg, and more. Find the best deals on new and used GPUs.
+            Prices are checked every week at major retailers. Every price shows where and when we saw it.
           </p>
         </div>
         <div class="feature">

@@ -1,5 +1,8 @@
 ---
+import { getDataFreshness, formatDate } from '../lib/data';
+
 const currentYear = new Date().getFullYear();
+const { pricesUpdatedAt } = getDataFreshness();
 
 const footerLinks = {
   product: [
@@ -107,7 +110,9 @@ const footerLinks = {
         &copy; {currentYear} AIGPUValue.com. All rights reserved.
       </p>
       <p class="footer__update">
-        Data last updated: <time datetime={new Date().toISOString().split('T')[0]}>{new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</time>
+        {pricesUpdatedAt
+          ? <>Prices last checked: <time datetime={pricesUpdatedAt.toISOString().split('T')[0]}>{formatDate(pricesUpdatedAt)}</time></>
+          : <>No current price data</>}
       </p>
     </div>
   </div>

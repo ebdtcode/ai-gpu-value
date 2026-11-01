@@ -4,7 +4,6 @@ dist/
 
 # Dependencies
 node_modules/
-package-lock.json
 
 # Environment variables (CRITICAL - never commit)
 .env
@@ -24,7 +23,6 @@ lerna-debug.log*
 *.log
 
 # Testing
-tests/
 test-results/
 playwright-report/
 playwright/.cache/
@@ -42,8 +40,7 @@ supabase/functions/.cache
 # Uncomment if migrations contain sensitive data:
 supabase/migrations/
 
-# Scripts (may contain API keys or sensitive logic)
-scripts/
+# Scripts read credentials from the environment only; keep them tracked.
 
 # Working documents (AI-generated drafts, not for production)
 working_docs/
@@ -71,3 +68,5 @@ CLAUDE.md
 *.tmp
 *.temp
 .cache/
+# Playwright screenshot baselines (platform-specific, regenerated locally)
+tests/**/*-snapshots/

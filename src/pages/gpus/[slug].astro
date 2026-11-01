@@ -1,12 +1,11 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getAllGPUs, getGPUBySlug, getAllGPUSlugs } from '../../lib/supabase';
+import { getAllGPUs, latestPriceCheck, formatDate, retailerLabel } from '../../lib/data';
 import { getValueRating, formatPrice, formatNumber } from '../../types';
 import type { GPUWithData } from '../../types';
 
-export async function getStaticPaths() {
-  const gpus = await getAllGPUs();
-  return gpus.map((gpu) => ({
+export function getStaticPaths() {
+  return getAllGPUs().map((gpu) => ({
     params: { slug: gpu.slug },
     props: { gpu },
   }));
@@ -21,10 +20,20 @@ const valueRating = getValueRating(gpu.valueScore);
 const brandClass = gpu.brand.toLowerCase();
 
 // Find similar GPUs (same VRAM tier)
-const allGPUs = await getAllGPUs();
-const similarGPUs = allGPUs
+const similarGPUs = getAllGPUs()
   .filter((g) => g.id !== gpu.id && Math.abs(g.vramGb - gpu.vramGb) <= 4)
   .slice(0, 3);
+
+const currentPrices = gpu.prices.filter((p) => !p.isStale);
+const staleprices = gpu.prices.filter((p) => p.isStale);
+const primaryPrice = currentPrices.find((p) => p.inStock) ?? currentPrices[0] ?? gpu.prices[0];
+const lastChecked = latestPriceCheck(gpu);
+const conditionLabel: Record<string, string> = {
+  new: 'New',
+  used: 'Used',
+  refurbished: 'Refurbished',
+  'open-box': 'Open box',
+};
 
 // Structured data for SEO
 const structuredData = {
@@ -36,7 +45,7 @@ const structuredData = {
     '@type': 'Brand',
     name: gpu.brand,
   },
-  offers: gpu.prices.map((price) => ({
+  offers: currentPrices.map((price) => ({
     '@type': 'Offer',
     url: price.affiliateUrl,
     priceCurrency: 'USD',
@@ -223,15 +232,61 @@ const structuredData = {
               </div>
             )}
 
+            {!gpu.lowestUsedPrice && !gpu.lowestNewPrice && (
+              <p class="price-card__empty">
+                No current price from the retailers we check. MSRP is {formatPrice(gpu.msrpUsd)}.
+              </p>
+            )}
+
+            {currentPrices.length > 0 && (
+              <ul class="price-list" aria-label="Current prices by retailer">
+                {currentPrices.map((price) => (
+                  <li class="price-list__row">
+                    <div class="price-list__main">
+                      <a href={price.url} target="_blank" rel="noopener sponsored">
+                        {retailerLabel(price.retailer)}
+                      </a>
+                      <span class="price-list__meta">
+                        {`${conditionLabel[price.condition] ?? price.condition}${price.inStock ? '' : ', out of stock'}, checked ${formatDate(new Date(price.fetchedAt), false)}`}
+                      </span>
+                      {price.productName && <span class="price-list__product">{price.productName}</span>}
+                    </div>
+                    <span class="price-list__price price">{formatPrice(price.priceUsd)}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {staleprices.length > 0 && (
+              <details class="price-list__stale">
+                <summary>Older prices ({staleprices.length})</summary>
+                <ul class="price-list" aria-label="Prices no longer current">
+                  {staleprices.map((price) => (
+                    <li class="price-list__row">
+                      <div class="price-list__main">
+                        <a href={price.url} target="_blank" rel="noopener sponsored">
+                          {retailerLabel(price.retailer)}
+                        </a>
+                        <span class="price-list__meta">
+                          {conditionLabel[price.condition] ?? price.condition}, last seen {formatDate(new Date(price.fetchedAt))}
+                        </span>
+                      </div>
+                      <span class="price-list__price price price--stale">{formatPrice(price.priceUsd)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            )}
+
             <div class="price-card__cta">
-              {gpu.prices[0] && (
+              {primaryPrice && (
                 <a
-                  href={gpu.prices[0].affiliateUrl}
+                  href={primaryPrice.affiliateUrl}
                   class="btn btn--primary btn--large"
                   target="_blank"
                   rel="noopener sponsored"
                 >
-                  Check Price on {gpu.prices[0].retailer.charAt(0).toUpperCase() + gpu.prices[0].retailer.slice(1)}
+                  Check Price on {retailerLabel(primaryPrice.retailer)}
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
                     <polyline points="15 3 21 3 21 9" />
@@ -242,8 +297,8 @@ const structuredData = {
             </div>
 
             <p class="price-card__disclosure">
-              Prices updated {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}.
-              We may earn a commission on purchases.
+              {lastChecked ? `Prices checked ${formatDate(lastChecked)}.` : 'No current prices for this card.'}
+              {' '}We may earn a commission on purchases.
             </p>
           </div>
 
@@ -492,6 +547,87 @@ const structuredData = {
   .price-card__price {
     font-size: 1.25rem;
     color: var(--text-primary);
+  }
+
+  .price-card__empty {
+    margin: 0 0 var(--spacing-4);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* Per-retailer price list */
+  .price-list {
+    list-style: none;
+    margin: var(--spacing-4) 0 0;
+    padding: 0;
+  }
+
+  .price-list__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-3);
+    padding: var(--spacing-3) 0;
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .price-list__main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+    min-width: 0;
+  }
+
+  .price-list__main a {
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+
+  .price-list__main a:hover {
+    color: var(--brand-primary);
+    text-decoration: underline;
+  }
+
+  .price-list__meta {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  .price-list__product {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .price-list__price {
+    font-size: 1rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+  }
+
+  .price--stale {
+    color: var(--text-muted);
+  }
+
+  .price-list__stale {
+    margin-top: var(--spacing-3);
+    font-size: 0.875rem;
+  }
+
+  .price-list__stale summary {
+    cursor: pointer;
+    color: var(--text-secondary);
+    padding: var(--spacing-2) 0;
+  }
+
+  .price-list__stale summary:hover {
+    color: var(--brand-primary);
   }
 
   .price-card__cta {

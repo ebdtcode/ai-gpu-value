@@ -1,9 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GPUCompare from '../components/GPUCompare';
-import { getAllGPUs } from '../lib/supabase';
+import { getAllGPUs } from '../lib/data';
 
-const gpuData = await getAllGPUs();
+const gpuData = getAllGPUs();
 ---
 
 <BaseLayout

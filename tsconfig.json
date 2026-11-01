@@ -5,7 +5,8 @@
     "**/*"
   ],
   "exclude": [
-    "dist"
+    "dist",
+    "working_docs"
   ],
   "compilerOptions": {
     "jsx": "react-jsx",

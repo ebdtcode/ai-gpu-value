@@ -37,13 +37,17 @@ export interface AIBenchmark {
 
 export interface Price {
   gpuId: string;
-  retailer: 'amazon' | 'newegg' | 'ebay' | 'bhphoto' | 'bestbuy' | 'nvidia';
+  retailer: 'amazon' | 'newegg' | 'ebay' | 'bhphoto' | 'bestbuy' | 'nvidia' | 'microcenter';
   condition: 'new' | 'used' | 'refurbished' | 'open-box';
   priceUsd: number;
   url: string;
   affiliateUrl: string;
   inStock: boolean;
   fetchedAt: string;
+  /** Retailer's product title for the listing behind this price. */
+  productName?: string;
+  /** True when the price is too old to count as current. */
+  isStale: boolean;
 }
 
 export interface GPUWithData extends GPU {

@@ -1,0 +1,830 @@
+[
+  {
+    "slug": "arc-a750",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 229,
+    "url": "https://www.amazon.com/s?k=intel+arc+a750",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "arc-a750",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 170,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=intel+arc+a750",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "arc-a750",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 169.99,
+    "url": "https://www.newegg.com/p/9SIA994KSW7523",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "Intel ARC A750 Limited Edition 8GB GDDR6 21P02J00BA PCIe 4.0 Graphic Card"
+  },
+  {
+    "slug": "arc-a770-16gb",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 299,
+    "url": "https://www.amazon.com/s?k=intel+arc+a770",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "arc-a770-16gb",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 220,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=intel+arc+a770",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "arc-a770-16gb",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 159.99,
+    "url": "https://www.newegg.com/p/14-553-001T",
+    "inStock": false,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "Acer Predator BiFrost Arc A770 Video Card Predator BiFrost Intel Arc A770 OC DP.BKCWW.P02"
+  },
+  {
+    "slug": "rtx-3060-12gb",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 289,
+    "url": "https://www.amazon.com/s?k=rtx+3060+12gb",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-3060-12gb",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 199,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+3060+12gb",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-3060-12gb",
+    "retailer": "microcenter",
+    "condition": "new",
+    "priceUsd": 389.99,
+    "url": "https://www.microcenter.com/product/712999/msi-nvidia-geforce-rtx-3060-ventus-2x-oc-dual-fan-graphics-card?storeid=095",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "MSI NVIDIA GeForce RTX 3060 VENTUS 2X OC Dual-Fan Graphics Card"
+  },
+  {
+    "slug": "rtx-3060-12gb",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 389.99,
+    "url": "https://www.newegg.com/p/9SIC1CZKUF8394",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "PNY GeForce RTX 3060 12GB REVEL EPIC-X XLR8 GAMING Video Graphics Card GPU"
+  },
+  {
+    "slug": "rtx-3060-ti",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 240,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+3060+ti",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-3060-ti",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 319.99,
+    "url": "https://www.newegg.com/p/9SIC1CZKJT8834",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "EVGA GeForce RTX 3060 Ti XC Gaming 8GB GDDR6 08G-P5-3663-KR Video Graphic Card GPU"
+  },
+  {
+    "slug": "rtx-3070",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 280,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+3070",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-3070",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 349,
+    "url": "https://www.newegg.com/p/9SIC0YTKHC3286",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "Peladn Gaming RTX 3070 8G  Graphics Card 256bit GDDR6 5888CUDA  PCI Express 4.0 Video Card Double fans Edition"
+  },
+  {
+    "slug": "rtx-3070-ti",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 320,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+3070+ti",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-3070-ti",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 389.99,
+    "url": "https://www.newegg.com/p/9SIC1CZKP45554",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "ZOTAC GAMING GeForce RTX 3070 Ti AMP Holo 8GB GDDR6X 256-bit 19 Gbps PCIE 4.0 Gaming Graphics Card"
+  },
+  {
+    "slug": "rtx-3080-10gb",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 420,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+3080+10gb",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-3080-10gb",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 584.99,
+    "url": "https://www.newegg.com/p/9SIA4REKEH4021",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "MSI Ventus GeForce RTX 3080 Graphics Card RTX 3080 VENTUS 3X PLUS 10G LHR"
+  },
+  {
+    "slug": "rtx-3080-12gb",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 480,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+3080+12gb",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-3080-12gb",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 599.99,
+    "url": "https://www.newegg.com/p/9SIC1CZKUF8416",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "MSI Ventus GeForce RTX 3080 12GB GDDR6X PCI Express 4.0 Video Card RTX 3080 VENTUS 3X PLUS 12G OC LHR"
+  },
+  {
+    "slug": "rtx-3080-ti",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 550,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+3080+ti",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-3080-ti",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 599.99,
+    "url": "https://www.newegg.com/p/9SIC1CZKJW0202",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "ZOTAC GeForce RTX 3080 Ti 12GB GDDR6X Trinity OC PCI Express 4.0 ATX Video Card ZT-A30810J-10P"
+  },
+  {
+    "slug": "rtx-3090",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 700,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+3090",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-3090",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 1799.99,
+    "url": "https://www.newegg.com/p/9SIC1CZKP45556",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "GIGABYTE GeForce RTX 3090 TURBO 24G 24GB GDDR6X PCI Express 4.0 16X 384bit Video Card"
+  },
+  {
+    "slug": "rtx-3090-ti",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 850,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+3090+ti",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-3090-ti",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 2774.3,
+    "url": "https://www.newegg.com/p/9SIC80CM7M7510",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "MSI Suprim GeForce RTX 3090 Ti Graphics Card RTX 3090 TI SUPRIM X 24G"
+  },
+  {
+    "slug": "rtx-4060",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 289,
+    "url": "https://www.amazon.com/s?k=rtx+4060",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4060",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 240,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+4060",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4060",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 399.99,
+    "url": "https://www.newegg.com/p/9SIAJEPKGJ8803",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "ASUS Dual RTX 4060  8GB GDDR6 ATX Graphics Card (DUAL-RTX4060-8G)"
+  },
+  {
+    "slug": "rtx-4060-ti-16gb",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 449,
+    "url": "https://www.amazon.com/s?k=rtx+4060+ti+16gb",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4060-ti-16gb",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 380,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+4060+ti+16gb",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4060-ti-16gb",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 979.18,
+    "url": "https://www.newegg.com/p/9SIC3VHKU12883",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "MSI GeForce RTX 4060 Ti GAMING X SLIM WHITE 16G GDDR6 128bit Video Card"
+  },
+  {
+    "slug": "rtx-4060-ti-8gb",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 389,
+    "url": "https://www.amazon.com/s?k=rtx+4060+ti+8gb",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4060-ti-8gb",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 320,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+4060+ti+8gb",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4060-ti-8gb",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 549,
+    "url": "https://www.newegg.com/p/9SIAYB7KP53569",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "ASUS TX Gaming GeForce RTX 4060 Ti OC Gaming Graphics Card (PCIe 4.0, 8GB GDDR6, DLSS 3, HDMI 2.1a, DisplayPort 1.4a) TX-RTX4060TI-O8G-GAMING"
+  },
+  {
+    "slug": "rtx-4070",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 549,
+    "url": "https://www.amazon.com/s?k=rtx+4070",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4070",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 450,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+4070",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4070",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 875,
+    "url": "https://www.newegg.com/p/9SIA639M154738",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "GIGABYTE GeForce RTX 4070 WINDFORCE 2X OC 12G Graphics Card, 2x WINDFORCE Fans, 12GB 192-bit GDDR6X, GV-N4070WF2OC-12GD Video Card"
+  },
+  {
+    "slug": "rtx-4070-super",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 579,
+    "url": "https://www.amazon.com/s?k=rtx+4070+super",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4070-super",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 500,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+4070+super",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4070-super",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 699.99,
+    "url": "https://www.newegg.com/p/9SIAJEPM6H5206",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "ZOTAC GAMING GeForce RTX 4070 SUPER Twin Edge 12GB GDDR6X ZT-D40720M-10B Video Card"
+  },
+  {
+    "slug": "rtx-4070-ti",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 699,
+    "url": "https://www.amazon.com/s?k=rtx+4070+ti",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4070-ti",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 580,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+4070+ti",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4070-ti",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 829.99,
+    "url": "https://www.newegg.com/p/9SIA4REKZD3388",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "GALAX GeForce RTX 4070 Ti Metal Master OC 12GB Graphics Card GDDR6X Gaming GPU RTX 4070Ti Video Card"
+  },
+  {
+    "slug": "rtx-4070-ti-super",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 749,
+    "url": "https://www.amazon.com/s?k=rtx+4070+ti+super",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4070-ti-super",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 650,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+4070+ti+super",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4070-ti-super",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 1199,
+    "url": "https://www.newegg.com/p/9SIAYB7KP56417",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "MSI Ventus GeForce RTX 4070 Ti SUPER Video Card RTX 4070 Ti SUPER 16G VENTUS 3X OC"
+  },
+  {
+    "slug": "rtx-4080",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 1049,
+    "url": "https://www.amazon.com/s?k=rtx+4080",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4080",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 900,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+4080",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4080",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 1399.99,
+    "url": "https://www.newegg.com/p/9SIADFRK1A9982",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "ASUS GeForce RTX 4080 STRIX OC 16GB GDDR6X ROG-STRIX-RTX4080-O16G-GAMING Video Graphic Card GPU"
+  },
+  {
+    "slug": "rtx-4080-super",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 979,
+    "url": "https://www.amazon.com/s?k=rtx+4080+super",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4080-super",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 850,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+4080+super",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4080-super",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 1787.87,
+    "url": "https://www.newegg.com/p/9SIC4WSKSE1972",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "GIGABYTE GeForce RTX 4080 SUPER WINDFORCE V2 16G Graphics Card, 3x WINDFORCE Fans, 16GB 256-bit GDDR6X, GV-N408SWF3V2-16GD Video Card"
+  },
+  {
+    "slug": "rtx-4090",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 1899,
+    "url": "https://www.amazon.com/s?k=rtx+4090",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4090",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 1650,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rtx+4090",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-4090",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 1699.99,
+    "url": "https://www.newegg.com/p/14-126-596T",
+    "inStock": false,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "ASUS TUF Gaming GeForce RTX 4090 Gaming Graphics Card (PCIe 4.0, 24GB GDDR6X, HDMI 2.1a, DisplayPort 1.4a) TUF-RTX4090-24G-GAMING"
+  },
+  {
+    "slug": "rtx-5070",
+    "retailer": "microcenter",
+    "condition": "new",
+    "priceUsd": 769.99,
+    "url": "https://www.microcenter.com/product/715136/pny-nvidia-geforce-rtx-5070-slim-oc-dual-fan-graphics-card?storeid=095",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "PNY NVIDIA GeForce RTX 5070 SLIM OC Dual-Fan Graphics Card"
+  },
+  {
+    "slug": "rtx-5070",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 799.99,
+    "url": "https://www.newegg.com/p/14-126-849",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "ASUS Dual GeForce RTX 5070 Graphics Card DUAL-RTX5070-O12G"
+  },
+  {
+    "slug": "rtx-5070",
+    "retailer": "nvidia",
+    "condition": "new",
+    "priceUsd": 549,
+    "url": "https://store.nvidia.com/en-us/geforce/store/",
+    "inStock": false,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-5070-ti",
+    "retailer": "microcenter",
+    "condition": "new",
+    "priceUsd": 1229.99,
+    "url": "https://www.microcenter.com/product/691459/msi-nvidia-geforce-rtx-5070-ti-ventus-3x-overclocked-triple-fan-16gb-gddr7-pcie-50-graphics-card?storeid=095",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "MSI NVIDIA GeForce RTX 5070 Ti VENTUS 3X Overclocked Triple Fan 16GB GDDR7 PCIe 5.0 Graphics Card"
+  },
+  {
+    "slug": "rtx-5070-ti",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 1199.99,
+    "url": "https://www.newegg.com/p/14-985-074",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "PNY OC GeForce RTX 5070 Ti Graphics Card NVIDIA RTX 5070 Ti"
+  },
+  {
+    "slug": "rtx-5070-ti",
+    "retailer": "nvidia",
+    "condition": "new",
+    "priceUsd": 749,
+    "url": "https://store.nvidia.com/en-us/geforce/store/",
+    "inStock": false,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-5080",
+    "retailer": "microcenter",
+    "condition": "new",
+    "priceUsd": 1979.99,
+    "url": "https://www.microcenter.com/product/690477/gigabyte-nvidia-geforce-rtx-5080-windforce-sff-overclocked-triple-fan-16gb-gddr7-pcie-50-graphics-card?storeid=095",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "Gigabyte NVIDIA GeForce RTX 5080 WINDFORCE SFF Overclocked Triple Fan 16GB GDDR7 PCIe 5.0 Graphics Card"
+  },
+  {
+    "slug": "rtx-5080",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 2199.99,
+    "url": "https://www.newegg.com/p/9SIAJEPM0N4050",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "ASUS PRIME GeForce RTX 5080 16GB 256-Bit GDDR7 PCI-Express 5.0 DLSS 4.0 Graphics Card PRIME-RTX5080-16G"
+  },
+  {
+    "slug": "rtx-5080",
+    "retailer": "nvidia",
+    "condition": "new",
+    "priceUsd": 999,
+    "url": "https://store.nvidia.com/en-us/geforce/store/",
+    "inStock": false,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rtx-5090",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 1949.99,
+    "url": "https://www.newegg.com/p/9UC14-932-765",
+    "inStock": false,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "GIGABYTE AORUS GeForce RTX 5090 Graphics Card GV-N5090AORUSM ICE-32GD"
+  },
+  {
+    "slug": "rtx-5090",
+    "retailer": "nvidia",
+    "condition": "new",
+    "priceUsd": 1999,
+    "url": "https://store.nvidia.com/en-us/geforce/store/",
+    "inStock": false,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rx-7600",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 249,
+    "url": "https://www.amazon.com/s?k=rx+7600",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rx-7600",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 200,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rx+7600",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rx-7600",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 359.99,
+    "url": "https://www.newegg.com/p/9SIADFRKGR7035",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "XFX Speedster SWFT 210 RX 7600 8GB GDDR6 RX-76PSWFTFY Video Graphics Card"
+  },
+  {
+    "slug": "rx-7600-xt",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 309,
+    "url": "https://www.amazon.com/s?k=rx+7600+xt",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rx-7600-xt",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 260,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rx+7600+xt",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rx-7600-xt",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 769,
+    "url": "https://www.newegg.com/p/9SIB1PGKFJ7717",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "XFX Speedster SWFT210 Radeon RX 7600 XT 16GB Graphics Card RX-76TSWFTFP"
+  },
+  {
+    "slug": "rx-7700-xt",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 409,
+    "url": "https://www.amazon.com/s?k=rx+7700+xt",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rx-7700-xt",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 340,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rx+7700+xt",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rx-7700-xt",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 648,
+    "url": "https://www.newegg.com/p/9SIAYB7KPX8377",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "GIGABYTE Radeon RX 7700 XT GAMING OC 12G Graphics Card, 3x WINDFORCE Fans 12GB 192-bit GDDR6, GV-R77XTGAMING OC-12GD Video Card"
+  },
+  {
+    "slug": "rx-7800-xt",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 469,
+    "url": "https://www.amazon.com/s?k=rx+7800+xt",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rx-7800-xt",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 380,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rx+7800+xt",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rx-7800-xt",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 795,
+    "url": "https://www.newegg.com/p/9SIB4VJKN49899",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "PowerColor Hellhound Radeon RX 7800 XT Graphics Card RX7800XT 16G-L/OC"
+  },
+  {
+    "slug": "rx-7900-gre",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 519,
+    "url": "https://www.amazon.com/s?k=rx+7900+gre",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rx-7900-gre",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 450,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rx+7900+gre",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rx-7900-gre",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 850,
+    "url": "https://www.newegg.com/p/9SIA639M0T4508",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "GIGABYTE Gaming Radeon RX 7900 GRE Graphics Card GV-R79GREGAMING OC-16GD"
+  },
+  {
+    "slug": "rx-7900-xt",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 749,
+    "url": "https://www.amazon.com/s?k=rx+7900+xt",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rx-7900-xt",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 620,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rx+7900+xt",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rx-7900-xt",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 1062.34,
+    "url": "https://www.newegg.com/p/9SIBTK0KGJ1753",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "Gigabyte RX 7900 XT GV-R79XTGAMING OC-20GD 20 Gbps GDDR6 320 bit 7680x4320 HDMI"
+  },
+  {
+    "slug": "rx-7900-xtx",
+    "retailer": "amazon",
+    "condition": "new",
+    "priceUsd": 899,
+    "url": "https://www.amazon.com/s?k=rx+7900+xtx",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rx-7900-xtx",
+    "retailer": "ebay",
+    "condition": "used",
+    "priceUsd": 750,
+    "url": "https://www.ebay.com/sch/i.html?_nkw=rx+7900+xtx",
+    "inStock": true,
+    "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rx-7900-xtx",
+    "retailer": "newegg",
+    "condition": "new",
+    "priceUsd": 1499.99,
+    "url": "https://www.newegg.com/p/9SIBP4YM8V2493",
+    "inStock": true,
+    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "productName": "SAPPHIRE Tech NITRO+ Radeon RX 7900 XTX OC 24GB Graphics Card, 384 bit GDDR6G PCI-Express 4.0 x16 ATX Video Card, RDNA 3 Architecture, vapor-X, for deepseek, ai model, silver"
+  }
+]
