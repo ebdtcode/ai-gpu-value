@@ -1,0 +1,72 @@
+name: Weekly price refresh
+
+on:
+  schedule:
+    # Mondays 09:00 UTC. Cloudflare Pages deploys the resulting push.
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Fetch and report without committing
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: weekly-prices
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - run: npm ci
+
+      - name: Matcher tests
+        run: npm run test:scripts
+
+      - name: Fetch prices
+        env:
+          MICROCENTER_STORE_ID: ${{ vars.MICROCENTER_STORE_ID }}
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            npm run fetch:prices -- --dry-run
+          else
+            npm run fetch:prices
+          fi
+
+      - name: Show run summary
+        if: always()
+        run: |
+          if [ -f data/last-run.json ]; then
+            echo '## Price refresh' >> "$GITHUB_STEP_SUMMARY"
+            echo '```json' >> "$GITHUB_STEP_SUMMARY"
+            cat data/last-run.json >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Build with the new data
+        run: npm run build
+
+      - name: Commit and push
+        if: inputs.dry_run != true
+        run: |
+          git config user.name "price-refresh-bot"
+          git config user.email "price-refresh-bot@users.noreply.github.com"
+          git add data/prices.json data/price-history.jsonl data/last-run.json
+          if git diff --cached --quiet; then
+            echo "No price changes this week."
+            exit 0
+          fi
+          git commit -m "chore(data): weekly price refresh $(date -u +%Y-%m-%d)"
+          git push
