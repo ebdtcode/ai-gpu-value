@@ -1,7 +1,8 @@
 ---
-title: "Best Budget GPUs for Stable Diffusion in 2025"
-description: "Find the perfect graphics card for AI image generation without breaking the bank. We compare VRAM, performance, and value across all price ranges."
+title: "Best Budget GPUs for Stable Diffusion in 2026"
+description: "Find the best graphics card for AI image generation on a budget. Current retail prices, VRAM, and SDXL performance compared across every price range."
 publishDate: 2025-01-15
+updatedDate: 2026-11-01
 category: buying-guides
 tags: ["stable diffusion", "budget", "SDXL", "image generation", "buying guide"]
 featuredImage: "/images/guides/budget-gpu-sd.jpg"
@@ -12,18 +13,20 @@ featured: false
 
 ## Introduction
 
-Stable Diffusion has revolutionized AI image generation, allowing anyone with a capable GPU to create stunning artwork on their own hardware. But which graphics card offers the best bang for your buck?
+Stable Diffusion lets anyone with a capable GPU generate images on their own hardware. The question is which card gives you the most for your money, and the answer has changed a lot since the start of 2025.
 
-In this guide, we'll analyze the best budget options for running Stable Diffusion locally, with a focus on VRAM capacity, generation speed, and overall value.
+GPU prices rose sharply through 2025 and 2026. In our November 2026 price check, almost every current-generation card was selling above its launch price at the retailers we track, and some mid-range cards cost double their MSRP. The good news is that last-generation cards still in stock as new old stock are now the clear value picks for image generation.
+
+Prices below are the lowest in-stock new prices we found at Newegg and Micro Center on November 1, 2026. They move weekly, so check the live price on each card's page before buying.
 
 ## Why VRAM Matters Most
 
-When it comes to Stable Diffusion, VRAM (Video RAM) is king. Here's why:
+For Stable Diffusion, VRAM (video memory) is the deciding specification:
 
-- **Model Loading**: SDXL base model requires approximately 6GB of VRAM
-- **Higher Resolutions**: 1024x1024 generation needs more memory than 512x512
-- **ControlNet & LoRAs**: Additional models consume extra VRAM
-- **Batch Processing**: Multiple images at once requires proportionally more memory
+- **Model loading**: the SDXL base model alone needs about 6GB
+- **Resolution**: 1024x1024 generation needs far more memory than 512x512
+- **ControlNet and LoRAs**: every add-on model takes extra VRAM
+- **Batches**: generating several images at once scales memory with batch size
 
 ### Minimum Requirements by Use Case
 
@@ -36,85 +39,94 @@ When it comes to Stable Diffusion, VRAM (Video RAM) is king. Here's why:
 
 ## Top Budget Picks
 
-### Best Under $300: RTX 3060 12GB
+### Best Under $400: RTX 3060 12GB
 
-The RTX 3060 12GB remains one of the best value propositions for AI workloads:
+The RTX 3060 12GB is still the cheapest sensible entry point for SDXL:
 
 - **VRAM**: 12GB GDDR6
-- **Used Price**: ~$199
-- **New Price**: ~$289
-- **SDXL Speed**: ~5 images/minute
+- **New price**: about $390
+- **SDXL speed**: about 5 images per minute
 
-The 12GB of VRAM allows you to run SDXL with room for ControlNet and multiple LoRAs. The used market is flooded with ex-mining cards, driving prices down.
-
-**Pros:**
-- Excellent VRAM for the price
-- Widely available used
-- Full NVIDIA ecosystem support
-
-**Cons:**
-- Slower than RTX 40-series at same VRAM
-- Higher power consumption
-
-### Best Under $500: RTX 4060 Ti 16GB
-
-For those wanting current-gen efficiency with ample VRAM:
-
-- **VRAM**: 16GB GDDR6
-- **New Price**: ~$449
-- **SDXL Speed**: ~8 images/minute
+Twelve gigabytes is enough for SDXL with ControlNet and a few LoRAs. It is slow by current standards, but nothing cheaper gives you this much memory from NVIDIA.
 
 **Pros:**
-- Modern Ada Lovelace architecture
-- Low power consumption (165W TDP)
-- Future-proof VRAM capacity
+- Most VRAM per dollar at the entry level
+- Still sold new, with warranty
+- Full CUDA ecosystem support
 
 **Cons:**
-- Lower memory bandwidth than RTX 3090
+- Slow compared with anything newer
+- 192-bit memory bus limits bandwidth
 
-### Best Used Value: RTX 3090
+### Cheapest Way In: Intel Arc A750 8GB
 
-The RTX 3090 has become a legend in the AI community:
+At about $170 new, the Arc A750 costs less than half the RTX 3060. Intel's software stack has improved, and SD 1.5 and SDXL both run on it through the OpenVINO and IPEX paths, but expect more setup work and fewer compatible tools than with NVIDIA. The 16GB Arc A770 was listed at $160 but out of stock when we checked, so it is worth watching.
 
-- **VRAM**: 24GB GDDR6X
-- **Used Price**: ~$700
-- **SDXL Speed**: ~12 images/minute
+### Best Under $600: RTX 3080 12GB or RTX 3080 Ti
+
+This is the sweet spot in late 2026. New old stock of the RTX 3080 12GB and RTX 3080 Ti is selling at about $600, well below their original launch prices:
+
+- **VRAM**: 12GB GDDR6X
+- **New price**: about $585 for the 3080 10GB, $600 for the 12GB and Ti models
+- **Speed**: substantially faster than the RTX 3060 at the same VRAM
+
+Pick the 12GB model over the 10GB one. For SDXL work the extra 2GB matters more than the small price difference.
 
 **Pros:**
-- 24GB handles any current model
-- Strong used market availability
-- Excellent performance/dollar used
+- Big jump in generation speed over the 3060
+- 12GB handles SDXL with ControlNet
+- Cheaper than any current-generation card with 12GB
 
 **Cons:**
-- High power consumption (350W)
-- Large physical size
-- Can run hot
+- 320W to 350W power draw needs a solid PSU
+- Supply is finite, so prices will drift up as stock clears
 
-## AMD Alternative: RX 7900 XTX
+### Best Current Generation Under $900: RTX 5070 12GB
 
-If you're open to AMD, the RX 7900 XTX offers:
+If you want a modern card with warranty support and low power draw:
 
-- **VRAM**: 24GB GDDR6
-- **New Price**: ~$899
-- **SDXL Speed**: ~10 images/minute (with ROCm)
+- **VRAM**: 12GB GDDR7
+- **New price**: about $770 at Micro Center in store, $800 at Newegg
+- **TDP**: 250W
 
-AMD support has improved significantly with ROCm, though NVIDIA still offers a smoother experience.
+The RTX 4070 Super at about $700 is the alternative with the same VRAM. Both are well above their launch prices, which is why the 3080 12GB above is the better value if you can accept the power draw.
+
+### Best 16GB Option: RTX 5070 Ti
+
+Sixteen gigabytes opens up Flux and heavy ControlNet workflows:
+
+- **VRAM**: 16GB GDDR7
+- **New price**: about $1,200
+
+The RTX 4060 Ti 16GB used to be the budget 16GB pick. At about $980 in our latest check it is no longer worth it; for roughly $220 more the 5070 Ti is far faster. On the AMD side the RX 7600 XT 16GB at about $770 is the cheapest 16GB card, with the ROCm caveats below.
+
+### Best 24GB: Used RTX 3090
+
+A used RTX 3090 remains the cheapest way to get 24GB of VRAM. New old stock was listed at about $1,800, which is not a budget buy, so the used market is where this card makes sense. We are not tracking used prices yet, so check recent sold listings and read our [used GPU buying guide](/guides/used-gpu-buying-guide) before purchasing.
+
+## AMD Alternative
+
+AMD cards run Stable Diffusion through ROCm on Linux or through DirectML and ZLUDA on Windows. Support is much better than it was, but NVIDIA still has the smoother experience and wider tool compatibility.
+
+At current prices the AMD lineup is hard to recommend for image generation. The RX 7900 XTX with 24GB was about $1,500 in our check, the RX 7800 XT 16GB about $795, and the RX 7600 XT 16GB about $770. The RX 7600 XT is the only one that beats NVIDIA on VRAM per dollar.
 
 ## Our Recommendations by Budget
 
 | Budget | Best Choice | VRAM | Why |
 |--------|------------|------|-----|
-| Under $200 | RTX 3060 12GB (used) | 12GB | Best VRAM per dollar |
-| $300-500 | RTX 4060 Ti 16GB | 16GB | Efficient, modern |
-| $500-800 | RTX 3090 (used) | 24GB | Maximum VRAM value |
-| $800+ | RTX 4070 Ti Super | 16GB | Fast + efficient |
+| Under $200 | Intel Arc A750 | 8GB | Cheapest working card, expect setup effort |
+| Under $400 | RTX 3060 12GB | 12GB | Most VRAM per dollar from NVIDIA |
+| Under $600 | RTX 3080 12GB | 12GB | Big speed jump, same VRAM |
+| Under $900 | RTX 5070 | 12GB | Current generation, efficient |
+| Around $1,200 | RTX 5070 Ti | 16GB | Flux and heavy ControlNet |
+| 24GB | RTX 3090 (used) | 24GB | Only affordable 24GB route |
 
 ## Conclusion
 
-For most users getting into Stable Diffusion, the **RTX 3060 12GB** at around $199 used offers unbeatable value. If you need more performance and have the budget, a used RTX 3090 provides 24GB of VRAM at a fraction of its original cost.
+For most people starting with Stable Diffusion in late 2026, the **RTX 3080 12GB at about $600** is the card to buy. It costs about $200 more than the RTX 3060 12GB and is much faster with the same memory. If $400 is the ceiling, the 3060 12GB still does the job.
 
-The key is prioritizing VRAM over raw compute power—a 12GB card will outperform an 8GB card in real-world AI workflows, even if the 8GB card is "faster" on paper.
+Prioritize VRAM over raw speed. A 12GB card will outperform an 8GB card in real workflows even when the 8GB card has the faster chip.
 
 ---
 
-*Last updated: January 2025. Prices are approximate and subject to market conditions.*
+*Last updated November 1, 2026 with prices from our weekly retailer check. Prices change often; the [GPU comparison table](/) shows the current figures.*

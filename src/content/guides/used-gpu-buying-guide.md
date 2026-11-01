@@ -2,6 +2,7 @@
 title: "Buying Used GPUs for AI: Complete Safety Guide"
 description: "How to safely buy used graphics cards for AI workloads. Learn to spot mining damage, test cards properly, and get the best deals on RTX 3090, 3080, and other popular AI GPUs."
 publishDate: 2025-02-05
+updatedDate: 2026-11-01
 category: buying-guides
 tags: ["used GPUs", "buying guide", "eBay", "mining", "RTX 3090", "safety"]
 featuredImage: "/images/guides/used-gpu-guide.jpg"
@@ -12,20 +13,21 @@ featured: true
 
 ## Introduction
 
-The used GPU market offers incredible value for AI enthusiasts. Cards like the RTX 3090 with 24GB VRAM can be found for under $600—a fraction of their original $1500 MSRP. However, buying used comes with risks.
-
-This guide will help you navigate the used market safely and get the best value for your money.
+The used GPU market is where AI enthusiasts find 24GB cards at prices new cards cannot match. With new GPU prices well above launch levels through 2025 and 2026, a used RTX 3090 is the only affordable route to 24GB of VRAM. Buying used does carry risk, and this guide covers how to manage it.
 
 ## Why Buy Used for AI Workloads?
 
 ### The Value Proposition
 
-| GPU | New Price | Used Price | Savings |
-|-----|-----------|------------|---------|
-| RTX 3090 24GB | Discontinued | ~$550-650 | Best 24GB value |
-| RTX 3080 10GB | Discontinued | ~$350-400 | Great performance |
-| RTX 3060 12GB | ~$289 | ~$180-220 | Best budget option |
-| RTX 3070 Ti 8GB | ~$449 | ~$280-320 | Gaming crossover |
+New prices below are the lowest in-stock listings from our November 1, 2026 retailer check. Treat them as the ceiling: a used card should sell well below the new old stock price.
+
+| GPU | New old stock price | Why it matters for AI |
+|-----|---------------------|-----------------------|
+| RTX 3090 24GB | ~$1,800 | Only 24GB card with a realistic used price |
+| RTX 3080 Ti 12GB | ~$600 | Fast, 12GB, cheap new, cheaper used |
+| RTX 3080 12GB | ~$600 | Same memory as the Ti for the same money |
+| RTX 3060 12GB | ~$390 | Cheapest 12GB entry point |
+| RTX 3070 Ti 8GB | ~$390 | Only if 8GB is enough for you |
 
 ### AI Workload Benefits
 
@@ -190,13 +192,13 @@ Return the card if you see:
 
 ## Best Used GPUs for AI
 
-### Best Overall Value: RTX 3090 ($550-700)
+### Best Overall Value: RTX 3090
 
 **Why it's great**:
 - 24GB VRAM (matches RTX 4090)
 - Runs Flux, SDXL, 70B LLMs (quantized)
-- Massive price drop from $1500 MSRP
-- Abundant supply from miners
+- New old stock is about $1,800, so used is the only sensible way to buy one
+- Large supply from the 2021 to 2022 mining era
 
 **Watch out for**:
 - High power draw (350W)
@@ -204,7 +206,7 @@ Return the card if you see:
 - Needs good case airflow
 - Check VRAM carefully (mining stressed it)
 
-### Best Budget: RTX 3060 12GB ($180-220)
+### Best Budget: RTX 3060 12GB
 
 **Why it's great**:
 - 12GB VRAM at lowest price point
@@ -217,17 +219,18 @@ Return the card if you see:
 - 192-bit memory bus limits bandwidth
 - Many ex-mining cards available
 
-### Best Mid-Range: RTX 3080 10GB ($350-400)
+### Best Mid-Range: RTX 3080 12GB or RTX 3080 Ti
 
 **Why it's great**:
 - Excellent performance per dollar
 - Fast for image generation
 - Good for 13B LLMs
+- New old stock is only about $600, so a used one should be a clear bargain
 
 **Watch out for**:
-- 10GB VRAM limiting for some workloads
-- High power draw (320W)
-- Memory limited variant exists (LHR)
+- Prefer the 12GB models over the 10GB RTX 3080 for SDXL
+- High power draw (320W to 350W)
+- Check whether the price gap to a new card justifies the risk
 
 ### Avoid for AI: RTX 3070/3070 Ti (8GB)
 
@@ -238,19 +241,23 @@ While great for gaming, 8GB VRAM is increasingly limiting for AI:
 
 ## Pricing Guide
 
-### Current Market Prices (November 2025)
+### Price Ceilings (November 2026)
 
-| Card | Low | Average | High |
-|------|-----|---------|------|
-| RTX 3060 12GB | $170 | $199 | $230 |
-| RTX 3070 8GB | $250 | $280 | $320 |
-| RTX 3070 Ti 8GB | $280 | $310 | $350 |
-| RTX 3080 10GB | $340 | $380 | $430 |
-| RTX 3080 Ti 12GB | $450 | $500 | $580 |
-| RTX 3090 24GB | $520 | $600 | $700 |
-| RTX 3090 Ti 24GB | $700 | $800 | $950 |
+We are rebuilding our used price tracking, so this table gives the lowest in-stock new price we found at the retailers we check on November 1, 2026. Use it as a ceiling when judging a used listing: if a used card is close to this number, buy new instead.
 
-*Prices vary by condition, seller, and model variant*
+| Card | New old stock, lowest in stock |
+|------|-------------------------------|
+| RTX 3060 12GB | $390 |
+| RTX 3060 Ti 8GB | $320 |
+| RTX 3070 8GB | $349 |
+| RTX 3070 Ti 8GB | $390 |
+| RTX 3080 10GB | $585 |
+| RTX 3080 12GB | $600 |
+| RTX 3080 Ti 12GB | $600 |
+| RTX 3090 24GB | $1,800 |
+| RTX 3090 Ti 24GB | $2,774 |
+
+*New prices change weekly and are shown live on each card's page. Used prices vary by condition, seller, and model variant.*
 
 ### Price Red Flags
 
@@ -305,6 +312,10 @@ Buying used GPUs for AI can save hundreds of dollars while providing identical c
 4. **Avoid deals that seem too good** to be true
 5. **Check for mining wear** but don't over-fear it
 
-The RTX 3090 at current used prices (~$600) offers the best value for serious AI work, providing 24GB VRAM for less than half the cost of a new RTX 4090.
+For serious AI work the used RTX 3090 remains the best value, because 24GB of VRAM costs well over $1,800 any other way at current retail prices.
 
-Check our [Deals page](/deals) for current best prices on used GPUs from reputable sellers.
+Check our [Deals page](/deals) for the current best new prices, and each card's page for the retailer listings behind them.
+
+---
+
+*Last updated November 1, 2026.*

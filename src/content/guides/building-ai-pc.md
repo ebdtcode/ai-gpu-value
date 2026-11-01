@@ -1,7 +1,8 @@
 ---
-title: "Building an AI PC: Complete Hardware Guide for 2025"
+title: "Building an AI PC: Complete Hardware Guide for 2026"
 description: "Step-by-step guide to building a PC optimized for Stable Diffusion, LLMs, and AI development. Covers GPU selection, CPU, RAM, storage, and power requirements."
 publishDate: 2025-01-25
+updatedDate: 2026-11-01
 category: tutorials
 tags: ["PC building", "hardware", "AI development", "workstation", "tutorial"]
 featuredImage: "/images/guides/building-ai-pc.jpg"
@@ -18,44 +19,52 @@ This guide will walk you through every component choice for an AI-focused PC bui
 
 ## Quick Build Recommendations
 
-### Budget Build (~$800-1000)
+GPU prices are the lowest in-stock new listings from our November 1, 2026 retailer check. Other component prices are rough early-2025 figures; memory in particular has risen since, so budget extra for RAM and verify prices before ordering.
+
+### Budget Build (~$1,000)
 
 | Component | Recommendation | Price |
 |-----------|---------------|-------|
-| GPU | RTX 3060 12GB (used) | ~$199 |
+| GPU | RTX 3060 12GB | ~$390 |
 | CPU | AMD Ryzen 5 5600 | ~$120 |
 | Motherboard | B550 ATX | ~$100 |
 | RAM | 32GB DDR4-3200 | ~$70 |
 | Storage | 1TB NVMe SSD | ~$70 |
 | PSU | 650W 80+ Gold | ~$70 |
 | Case | Mid-tower with airflow | ~$60 |
-| **Total** | | **~$689** |
+| **Total** | | **~$880** |
 
-### Mid-Range Build (~$1500-2000)
+A used RTX 3060 12GB or a new RTX 3080 12GB at about $600 are the two upgrades worth considering here. See the [used GPU guide](/guides/used-gpu-buying-guide) before buying used.
+
+### Mid-Range Build (~$2,000)
 
 | Component | Recommendation | Price |
 |-----------|---------------|-------|
-| GPU | RTX 4070 Ti Super 16GB | ~$749 |
+| GPU | RTX 5070 Ti 16GB | ~$1,200 |
 | CPU | AMD Ryzen 7 7700X | ~$299 |
 | Motherboard | B650 ATX | ~$150 |
 | RAM | 64GB DDR5-5600 | ~$180 |
 | Storage | 2TB NVMe SSD | ~$120 |
 | PSU | 850W 80+ Gold | ~$100 |
 | Case | Good airflow case | ~$100 |
-| **Total** | | **~$1698** |
+| **Total** | | **~$2,149** |
 
-### High-End Build (~$3000-4000)
+The RTX 4070 Ti Super 16GB sells for about the same $1,200, so take the newer 5070 Ti. If 12GB is enough, the RTX 5070 at about $770 to $800 cuts the build to roughly $1,700.
+
+### High-End Build (~$3,500 to $4,500)
 
 | Component | Recommendation | Price |
 |-----------|---------------|-------|
-| GPU | RTX 4090 24GB | ~$1999 |
+| GPU | RTX 5090 32GB | $1,999 at MSRP |
 | CPU | AMD Ryzen 9 7950X | ~$449 |
 | Motherboard | X670E ATX | ~$280 |
 | RAM | 128GB DDR5-5600 | ~$350 |
 | Storage | 4TB NVMe SSD | ~$250 |
 | PSU | 1000W 80+ Platinum | ~$180 |
 | Case | Full tower with airflow | ~$150 |
-| **Total** | | **~$3658** |
+| **Total** | | **~$3,658** |
+
+The RTX 5090 is only worth it at or near its $1,999 list price, and in-stock listings at the retailers we track were mostly marketplace sellers far above that. Build the rest of the system and wait for stock rather than paying a scalper. The RTX 4090 is discontinued and no longer a better deal; see our [5090 vs 4090 comparison](/guides/rtx-5090-vs-4090-ai-performance).
 
 ## GPU: The Heart of Your AI PC
 
@@ -72,12 +81,14 @@ The GPU is by far the most important component. See our [VRAM guide](/guides/how
 
 | Budget | Best Option | VRAM | Why |
 |--------|-------------|------|-----|
-| $200 | RTX 3060 12GB (used) | 12GB | Best VRAM per dollar |
-| $350 | RTX 3080 10GB (used) | 10GB | Fast, but limited VRAM |
-| $500 | RTX 3090 (used) | 24GB | Incredible value for 24GB |
-| $750 | RTX 4070 Ti Super | 16GB | Modern, efficient |
-| $1000 | RTX 4080 Super | 16GB | Fast modern architecture |
-| $2000 | RTX 4090 | 24GB | Maximum performance |
+| $400 | RTX 3060 12GB | 12GB | Cheapest 12GB from NVIDIA |
+| $600 | RTX 3080 12GB or 3080 Ti | 12GB | Much faster, same VRAM, new old stock |
+| $800 | RTX 5070 | 12GB | Current generation, 250W |
+| $1,200 | RTX 5070 Ti | 16GB | Best 16GB value right now |
+| Used market | RTX 3090 | 24GB | Only affordable 24GB route |
+| $2,000 | RTX 5090 (at MSRP) | 32GB | Maximum performance, if you can find one |
+
+Prices are from our November 1, 2026 check and move weekly. The [GPU comparison table](/) shows the live figures. The RTX 4080 Super and RTX 4060 Ti 16GB, former picks in this table, were selling at roughly double their launch prices and are no longer good value.
 
 ## CPU: Supporting Your GPU
 
@@ -174,15 +185,16 @@ High-end GPUs have massive power spikes. Undersized PSUs cause crashes and insta
 | RTX 3060 | 550W | 650W |
 | RTX 3080 | 750W | 850W |
 | RTX 3090 | 850W | 1000W |
-| RTX 4070 Ti | 700W | 850W |
-| RTX 4090 | 850W | 1000W+ |
+| RTX 5070 | 650W | 750W |
+| RTX 5070 Ti | 750W | 850W |
+| RTX 5090 | 1000W | 1200W |
 
 ### PSU Quality Matters
 
 - **80+ Gold minimum**: Efficiency and reliability
 - **Reputable brands**: Corsair, EVGA, Seasonic, be quiet!
 - **Modular**: Easier cable management
-- **ATX 3.0**: Better transient response for 40-series GPUs
+- **ATX 3.1 with a native 12V-2x6 connector**: Required for RTX 50 series cards, and the safest choice for RTX 40 series too
 
 ## Cooling: Keep It Cool
 
@@ -305,4 +317,8 @@ Building an AI PC prioritizes:
 4. **Fast storage** for quality of life
 5. **Good airflow** for sustained performance
 
-Use our [GPU comparison tool](/) to find the best graphics card for your budget, then build around it. The used market offers incredible value for AI-focused builds, especially the RTX 3090 at current prices.
+Use our [GPU comparison tool](/) to find the best graphics card for your budget, then build around it. With new GPU prices well above launch levels, new old stock RTX 30 series cards and the used RTX 3090 are where the value is for AI builds in late 2026.
+
+---
+
+*Last updated November 1, 2026.*

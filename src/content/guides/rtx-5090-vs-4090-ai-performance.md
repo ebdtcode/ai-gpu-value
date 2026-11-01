@@ -2,6 +2,7 @@
 title: "RTX 5090 vs RTX 4090: AI Performance Comparison"
 description: "Is the RTX 5090 worth the upgrade? We compare SDXL, LLM inference, and overall AI performance between NVIDIA's flagship GPUs."
 publishDate: 2025-02-01
+updatedDate: 2026-11-01
 category: comparisons
 tags: ["RTX 5090", "RTX 4090", "comparison", "Blackwell", "Ada Lovelace"]
 featuredImage: "/images/guides/rtx-5090-vs-4090.jpg"
@@ -12,9 +13,9 @@ featured: true
 
 ## The Flagship Showdown
 
-NVIDIA's RTX 5090 has arrived, promising significant improvements over the already-excellent RTX 4090. But for AI workloads, is the $2,000 price tag justified?
+The RTX 5090 is NVIDIA's fastest consumer card, and the RTX 4090 is now discontinued. For AI workloads, is the 5090 worth its $1,999 list price, and does a 4090 still make sense if you can find one?
 
-Let's dive into the numbers.
+The short answer in late 2026: at list price the 5090 wins easily. The problem is finding one at list price. Details below, with current retail prices from our November 2026 check.
 
 ## Specifications at a Glance
 
@@ -95,17 +96,20 @@ Despite higher absolute power, the 5090 is actually more efficient per watt.
 
 The RTX 5090 offers better value per performance unit despite the higher price.
 
-### vs Used RTX 4090
+### What the cards actually cost now
 
-Many 4090s are available used for $1,500-1,700:
+The MSRP comparison above assumes you can buy either card at list price. In our November 1, 2026 retailer check:
+
+- **RTX 5090**: the lowest listing was $1,950, but out of stock. The cheapest in-stock listing was a marketplace seller at $8,899, which we reject as a scalper price.
+- **RTX 4090**: discontinued. The lowest listing was $1,700, out of stock. In-stock marketplace listings started at $4,799.
 
 | Scenario | Cost | SDXL Value |
 |----------|------|------------|
-| 5090 New | $1,999 | $57/img/min |
-| 4090 New | $1,899 | $86/img/min |
-| 4090 Used | $1,650 | $75/img/min |
+| 5090 at MSRP | $1,999 | $57/img/min |
+| 4090 at last retail listing | $1,700 | $77/img/min |
+| 4090 marketplace, in stock | $4,799 | $218/img/min |
 
-A used 4090 still represents excellent value for budget-conscious buyers.
+A 4090 only makes sense below about $1,500. Above that, the 5090 at MSRP is faster, has 8GB more memory, and is the better buy whenever stock appears. We do not track used prices yet, so check recent sold listings before paying for a used 4090.
 
 ## Who Should Buy the RTX 5090?
 
@@ -129,10 +133,12 @@ A used 4090 still represents excellent value for budget-conscious buyers.
 
 The RTX 5090 is a genuine leap forward for AI workloads. The 32GB of GDDR7 memory and improved tensor cores deliver ~50% performance gains across the board.
 
-However, for most users, a used RTX 4090 at $1,650 or even a used RTX 3090 at $700 offers far better value. The 5090 is best suited for professionals who need maximum VRAM and can justify the power costs.
+The catch is availability. Nearly two years after launch, in-stock 5090s at the retailers we track are still mostly marketplace listings at several times MSRP. Do not pay those prices. Set a stock alert at NVIDIA, Best Buy, or Micro Center and buy at $1,999 to $2,300 when a card appears.
 
-**Our Verdict**: Wait for availability to normalize and prices to stabilize. If you need a card today, a used 4090 remains excellent.
+If you need 24GB today and cannot wait, a used RTX 3090 is the practical alternative, and a used 4090 is worth it only below about $1,500.
+
+**Our Verdict**: Buy the RTX 5090 at or near list price when you can find one. Never buy either card from a marketplace seller at scalper prices.
 
 ---
 
-*Last updated: February 2025. Benchmarks based on early testing and may improve with driver updates.*
+*Last updated November 1, 2026 with prices from our weekly retailer check. Benchmark figures are from launch-period testing.*

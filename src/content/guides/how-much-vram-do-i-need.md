@@ -2,6 +2,7 @@
 title: "How Much VRAM Do I Need for AI? Complete Guide"
 description: "Understand VRAM requirements for Stable Diffusion, LLMs, and other AI workloads. Find out exactly how much video memory you need for your use case."
 publishDate: 2025-01-20
+updatedDate: 2026-11-01
 category: tutorials
 tags: ["VRAM", "memory", "AI requirements", "tutorial", "beginners"]
 featuredImage: "/images/guides/vram-guide.jpg"
@@ -159,7 +160,7 @@ The KV cache for attention grows with context length:
 - 70B models still out of reach
 - Full fine-tuning limited
 
-**Best Options**: RTX 4080 16GB, RTX 4070 Ti Super 16GB
+**Best Options**: RTX 5070 Ti 16GB, RTX 4070 Ti Super 16GB, RX 7600 XT 16GB on a tight budget
 
 ### 24GB: Professional
 
@@ -170,7 +171,11 @@ The KV cache for attention grows with context length:
 - Serious LoRA training
 - Multiple concurrent models
 
-**Best Options**: RTX 3090 24GB (used), RTX 4090 24GB
+**Best Options**: RTX 3090 24GB (used), RX 7900 XTX 24GB
+
+### 32GB: Flagship
+
+The RTX 5090's 32GB closes most of the gap to workstation cards for local inference. It runs 70B models at 4-bit quantization with usable context, and it is the only consumer card that does. It only makes sense at or near its $1,999 list price; see our [5090 vs 4090 comparison](/guides/rtx-5090-vs-4090-ai-performance).
 
 ### 48GB+: Enterprise
 
@@ -188,9 +193,14 @@ AI models are growing rapidly:
 
 - **2023**: 7-13B was standard for local use
 - **2024**: 30-70B became accessible with quantization
-- **2025**: 100B+ models emerging
+- **2025**: 100B+ mixture-of-experts models arrived, and image models moved from SDXL to Flux-class sizes
+- **2026**: 12GB is the practical floor for new models; 16GB is the comfortable minimum
 
-**Recommendation**: Buy as much VRAM as your budget allows. A 24GB card today will still be useful in 3 years; an 8GB card may become limiting within 1-2 years.
+**Recommendation**: Buy as much VRAM as your budget allows. A 24GB card today will still be useful in 3 years; an 8GB card is already limiting.
+
+---
+
+*Last updated November 1, 2026.*
 
 ## VRAM Optimization Techniques
 
