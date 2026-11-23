@@ -77,11 +77,11 @@
     "slug": "rtx-3060-12gb",
     "retailer": "microcenter",
     "condition": "new",
-    "priceUsd": 389.99,
-    "url": "https://www.microcenter.com/product/712999/msi-nvidia-geforce-rtx-3060-ventus-2x-oc-dual-fan-graphics-card?storeid=095",
+    "priceUsd": 399.99,
+    "url": "https://www.microcenter.com/product/713619/zotac-nvidia-geforce-rtx-3060-twin-edge-dual-fan-graphics-card?storeid=095",
     "inStock": true,
-    "fetchedAt": "2026-11-01T13:58:45.582Z",
-    "productName": "MSI NVIDIA GeForce RTX 3060 VENTUS 2X OC Dual-Fan Graphics Card"
+    "fetchedAt": "2026-11-23T20:44:57.640Z",
+    "productName": "Zotac NVIDIA GeForce RTX 3060 Twin Edge Dual-Fan Graphics Card"
   },
   {
     "slug": "rtx-3060-12gb",
@@ -529,11 +529,11 @@
     "slug": "rtx-5070",
     "retailer": "microcenter",
     "condition": "new",
-    "priceUsd": 769.99,
-    "url": "https://www.microcenter.com/product/715136/pny-nvidia-geforce-rtx-5070-slim-oc-dual-fan-graphics-card?storeid=095",
+    "priceUsd": 869.99,
+    "url": "https://www.microcenter.com/product/692301/msi-nvidia-geforce-rtx-5070-ventus-2x-white-overclocked-dual-fan-12gb-gddr7-pcie-50-graphics-card?storeid=095",
     "inStock": true,
-    "fetchedAt": "2026-11-01T13:58:45.582Z",
-    "productName": "PNY NVIDIA GeForce RTX 5070 SLIM OC Dual-Fan Graphics Card"
+    "fetchedAt": "2026-11-23T20:44:57.640Z",
+    "productName": "MSI NVIDIA GeForce RTX 5070 VENTUS 2X White Overclocked Dual Fan 12GB GDDR7 PCIe 5.0 Graphics Card"
   },
   {
     "slug": "rtx-5070",
@@ -558,11 +558,11 @@
     "slug": "rtx-5070-ti",
     "retailer": "microcenter",
     "condition": "new",
-    "priceUsd": 1229.99,
-    "url": "https://www.microcenter.com/product/691459/msi-nvidia-geforce-rtx-5070-ti-ventus-3x-overclocked-triple-fan-16gb-gddr7-pcie-50-graphics-card?storeid=095",
+    "priceUsd": 1399.99,
+    "url": "https://www.microcenter.com/product/690475/pny-nvidia-geforce-rtx-5070-ti-overclocked-triple-fan-16gb-gddr7-pcie-50-graphics-card?storeid=095",
     "inStock": true,
-    "fetchedAt": "2026-11-01T13:58:45.582Z",
-    "productName": "MSI NVIDIA GeForce RTX 5070 Ti VENTUS 3X Overclocked Triple Fan 16GB GDDR7 PCIe 5.0 Graphics Card"
+    "fetchedAt": "2026-11-23T20:44:57.640Z",
+    "productName": "PNY NVIDIA GeForce RTX 5070 Ti Overclocked Triple Fan 16GB GDDR7 PCIe 5.0 Graphics Card"
   },
   {
     "slug": "rtx-5070-ti",
@@ -587,10 +587,10 @@
     "slug": "rtx-5080",
     "retailer": "microcenter",
     "condition": "new",
-    "priceUsd": 1979.99,
+    "priceUsd": 2179.99,
     "url": "https://www.microcenter.com/product/690477/gigabyte-nvidia-geforce-rtx-5080-windforce-sff-overclocked-triple-fan-16gb-gddr7-pcie-50-graphics-card?storeid=095",
     "inStock": true,
-    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "fetchedAt": "2026-11-23T20:44:57.640Z",
     "productName": "Gigabyte NVIDIA GeForce RTX 5080 WINDFORCE SFF Overclocked Triple Fan 16GB GDDR7 PCIe 5.0 Graphics Card"
   },
   {
@@ -619,7 +619,7 @@
     "priceUsd": 1949.99,
     "url": "https://www.newegg.com/p/9UC14-932-765",
     "inStock": false,
-    "fetchedAt": "2026-11-01T13:58:45.582Z",
+    "fetchedAt": "2026-11-23T20:44:57.640Z",
     "productName": "GIGABYTE AORUS GeForce RTX 5090 Graphics Card GV-N5090AORUSM ICE-32GD"
   },
   {
@@ -648,6 +648,16 @@
     "url": "https://www.ebay.com/sch/i.html?_nkw=rx+7600",
     "inStock": true,
     "fetchedAt": "2025-11-29T00:00:00.000Z"
+  },
+  {
+    "slug": "rx-7600",
+    "retailer": "microcenter",
+    "condition": "new",
+    "priceUsd": 359.99,
+    "url": "https://www.microcenter.com/product/667279/asrock-amd-radeon-rx-7600-challenger-overclocked-dual-fan-8gb-gddr6-pcie-40-graphics-card?storeid=095",
+    "inStock": true,
+    "fetchedAt": "2026-11-23T20:44:57.640Z",
+    "productName": "ASRock AMD Radeon RX 7600 Challenger Overclocked Dual Fan 8GB GDDR6 PCIe 4.0 Graphics Card"
   },
   {
     "slug": "rx-7600",
